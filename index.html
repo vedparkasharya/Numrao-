@@ -6,14 +6,55 @@
 <section id="notes" class="panel hidden"><button class="back" data-home>← Home</button><h3>Quick Maths Notes</h3><div class="note"><b>Percentage</b><br>x% of y = (x × y) ÷ 100<br>10% = ÷10 · 5% = half of 10% · 25% = one-fourth</div><div class="note"><b>Squares</b><br>(a+b)² = a² + 2ab + b²<br>(a−b)² = a² − 2ab + b²</div><div class="note"><b>Multiplication shortcuts</b><br>×5 = ×10 ÷ 2 · ×25 = ×100 ÷ 4 · ×9 = ×10 − number</div><div class="note"><b>Divisibility</b><br>2: even last digit · 3: digit sum divisible by 3 · 5: ends 0 or 5 · 9: digit sum divisible by 9</div></section>
 <section id="progressPanel" class="panel hidden"><button class="back" data-home>← Home</button><h3>Your Progress</h3><div class="note" id="progressText"></div><p>Your data is saved on this device only. No account or internet needed.</p><button class="secondary" id="reset">Reset progress</button></section><footer style="text-align:center;color:#77748e;font-size:12px;margin-top:30px">NUMORA · PRACTICE ANYWHERE · YOUR PROGRESS STAYS ON THIS DEVICE</footer></main>
 <script>
-const $=id=>document.getElementById(id);let topic='arithmetic',q,done=false,round=0,score=0;let stats=JSON.parse(localStorage.getItem('numora-stats')||'{"solved":0,"correct":0,"days":0,"last":""}');
-function save(){localStorage.setItem('numora-stats',JSON.stringify(stats));statsUI()}function statsUI(){$('solved').textContent=stats.solved;$('accuracy').textContent=stats.solved?Math.round(stats.correct/stats.solved*100)+'%':'—';$('streak').textContent=stats.days||0}
-function r(a,b){return Math.floor(Math.random()*(b-a+1))+a}function make(){let a,b,ans,txt,t=topic==='mixed'?['arithmetic','squares','tables','percent','series'][r(0,4)]:topic;if(t==='arithmetic'){a=r(10,99);b=r(2,30);let op=['+','−','×','÷'][r(0,3)];if(op==='+'){ans=a+b;txt=a+' + '+b}else if(op==='−'){if(b>a)[a,b]=[b,a];ans=a-b;txt=a+' − '+b}else if(op==='×'){ans=a*b;txt=a+' × '+b}else{b=r(2,12);a=a*b;ans=a/b;txt=a+' ÷ '+b}}else if(t==='squares'){a=r(2,30);let cube=Math.random()<.25;ans=cube?a*a*a:a*a;txt=a+(cube?'³':'²')}else if(t==='tables'){a=r(2,30);b=r(2,12);ans=a*b;txt=a+' × '+b}else if(t==='percent'){a=[5,10,12,15,20,25,30,40,50,75][r(0,9)];b=[80,120,160,200,240,320,400,600,800][r(0,8)];ans=a*b/100;txt=a+'% of '+b}else{a=r(2,20);b=r(2,8);ans=a+4*b;txt=[a,a+b,a+2*b,a+3*b].join(', ')+', ?'}let opts=new Set([ans]);while(opts.size<4)opts.add(Math.max(0,ans+r(-Math.max(5,Math.ceil(ans*.2)),Math.max(5,Math.ceil(ans*.2)))));return{txt,ans,opts:[...opts].sort(()=>Math.random()-.5)}}
-function question(){q=make();done=false;$('question').textContent=q.txt+' = ?';$('feedback').textContent='';$('next').disabled=true;$('count').textContent=(round+1)+' / 10';$('bar').style.width=round*10+'%';$('options').innerHTML='';q.opts.forEach(n=>{let b=document.createElement('button');b.className='answer';b.textContent=n;b.onclick=()=>choose(b,n);$('options').append(b)})}
-function choose(btn,n){if(done)return;done=true;stats.solved++;let today=new Date().toDateString();if(stats.last!==today){stats.days++;stats.last=today}if(n===q.ans){stats.correct++;score++;btn.classList.add('good');$('feedback').textContent='✓ Correct!'}else{btn.classList.add('bad');$('feedback').textContent='Correct answer: '+q.ans;[...$('options').children].forEach(x=>{if(+x.textContent===q.ans)x.classList.add('good')})}save();$('next').disabled=false}
+const $=id=>document.getElementById(id);
+let topic='arithmetic',q,done=false,round=0,score=0;
+let stats=JSON.parse(localStorage.getItem('numora-stats')||'{"solved":0,"correct":0,"days":0,"last":""}');
+function save(){localStorage.setItem('numora-stats',JSON.stringify(stats));statsUI()}
+function statsUI(){$('solved').textContent=stats.solved;$('accuracy').textContent=stats.solved?Math.round(stats.correct/stats.solved*100)+'%':'—';$('streak').textContent=stats.days||0}
+function r(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function make(){
+ let a,b,ans,txt,t=topic==='mixed'?['arithmetic','squares','tables','percent','series'][r(0,4)]:topic;
+ if(t==='arithmetic'){a=r(10,99);b=r(2,30);let op=['+','−','×','÷'][r(0,3)];if(op==='+'){ans=a+b;txt=a+' + '+b}else if(op==='−'){if(b>a)[a,b]=[b,a];ans=a-b;txt=a+' − '+b}else if(op==='×'){ans=a*b;txt=a+' × '+b}else{b=r(2,12);a=a*b;ans=a/b;txt=a+' ÷ '+b}}
+ else if(t==='squares'){a=r(2,30);let cube=Math.random()<.25;ans=cube?a*a*a:a*a;txt=a+(cube?'³':'²')}
+ else if(t==='tables'){a=r(2,30);b=r(2,12);ans=a*b;txt=a+' × '+b}
+ else if(t==='percent'){a=[5,10,12,15,20,25,30,40,50,75][r(0,9)];b=[80,120,160,200,240,320,400,600,800][r(0,8)];ans=a*b/100;txt=a+'% of '+b}
+ else{a=r(2,20);b=r(2,8);ans=a+4*b;txt=[a,a+b,a+2*b,a+3*b].join(', ')+', ?'}
+ let opts=new Set([ans]);while(opts.size<4)opts.add(Math.max(0,ans+r(-Math.max(5,Math.ceil(ans*.2)),Math.max(5,Math.ceil(ans*.2)))));
+ return{txt,ans,opts:[...opts].sort(()=>Math.random()-.5)}
+}
+function question(){
+ q=make();done=false;
+ $('question').textContent=q.txt+' = ?';$('feedback').textContent='';
+ $('next').disabled=true;$('next').classList.remove('hidden');$('next').textContent='Next question →';
+ $('count').textContent=(round+1)+' / 10';$('bar').style.width=(round*10)+'%';$('options').innerHTML='';
+ q.opts.forEach(n=>{let b=document.createElement('button');b.className='answer';b.textContent=n;b.onclick=()=>choose(b,n);$('options').append(b)})
+}
+function finishRound(){
+ $('bar').style.width='100%';$('count').textContent='10 / 10';
+ $('question').textContent='Round complete!';
+ $('feedback').textContent='Your final score is '+score+' out of 10.';
+ $('options').innerHTML='<div style="grid-column:1/-1;background:#f5f2ff;border-radius:16px;padding:20px;text-align:center"><div style="font-size:42px;font-weight:900;color:#7057e8">'+score+'/10</div><b>'+ (score>=8?'Excellent work!':score>=5?'Good effort!':'Keep practising!') +'</b><p style="color:#77748e;margin:8px 0 16px">Accuracy this round: '+(score*10)+'%</p><button class="primary" id="again">Practice again</button> <button class="secondary" id="homeResult">Home</button></div>';
+ $('again').onclick=()=>start(topic);$('homeResult').onclick=home;
+ $('next').classList.add('hidden');
+}
+function choose(btn,n){
+ if(done)return;done=true;stats.solved++;
+ let today=new Date().toDateString();if(stats.last!==today){stats.days++;stats.last=today}
+ if(n===q.ans){stats.correct++;score++;btn.classList.add('good');$('feedback').textContent='✓ Correct!'}
+ else{btn.classList.add('bad');$('feedback').textContent='Correct answer: '+q.ans;[...$('options').children].forEach(x=>{if(+x.textContent===q.ans)x.classList.add('good')})}
+ save();
+ if(round===9){finishRound();return}
+ $('next').disabled=false;
+}
 function home(){['practice','notes','progressPanel'].forEach(x=>$(x).classList.add('hidden'));$('home').classList.remove('hidden')}
-function start(t){topic=t;round=0;score=0;$('home').classList.add('hidden');$('notes').classList.add('hidden');$('progressPanel').classList.add('hidden');$('practice').classList.remove('hidden');$('topicName').textContent=t.toUpperCase();$('next').textContent='Next question →';$('next').onclick=advance;question()}
-function advance(){round++;if(round===10){$('question').textContent='Round complete!';$('options').innerHTML='';$('feedback').textContent='You got '+score+' / 10 correct.';$('next').textContent='Practice again';$('next').onclick=()=>start(topic);$('bar').style.width='100%'}else question()}
-document.querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>{let t=b.dataset.topic;if(t==='notes'||t==='progress'){$('home').classList.add('hidden');$(t==='notes'?'notes':'progressPanel').classList.remove('hidden');if(t==='progress')$('progressText').textContent=stats.solved+' solved · '+stats.correct+' correct · '+(stats.solved?Math.round(stats.correct/stats.solved*100):0)+'% accuracy'}else start(t)});$('back').onclick=home;document.querySelectorAll('[data-home]').forEach(b=>b.onclick=home);$('reset').onclick=()=>{if(confirm('Reset saved progress?')){stats={solved:0,correct:0,days:0,last:''};save();$('progressText').textContent='Progress reset.'}};statsUI();
-if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));function net(){$('net').textContent=navigator.onLine?'● Online · Offline ready':'● Offline mode'}addEventListener('online',net);addEventListener('offline',net);net();
+function start(t){topic=t;round=0;score=0;$('home').classList.add('hidden');$('notes').classList.add('hidden');$('progressPanel').classList.add('hidden');$('practice').classList.remove('hidden');$('topicName').textContent=t.toUpperCase();question()}
+function advance(){if(!done||round>=9)return;round++;question()}
+document.querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>{let t=b.dataset.topic;if(t==='notes'||t==='progress'){$('home').classList.add('hidden');$(t==='notes'?'notes':'progressPanel').classList.remove('hidden');if(t==='progress')$('progressText').textContent=stats.solved+' solved · '+stats.correct+' correct · '+(stats.solved?Math.round(stats.correct/stats.solved*100):0)+'% accuracy'}else start(t)});
+$('back').onclick=home;document.querySelectorAll('[data-home]').forEach(b=>b.onclick=home);
+$('next').onclick=advance;
+$('reset').onclick=()=>{if(confirm('Reset saved progress?')){stats={solved:0,correct:0,days:0,last:''};save();$('progressText').textContent='Progress reset.'}};
+statsUI();
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+function net(){$('net').textContent=navigator.onLine?'● Online · Offline ready':'● Offline mode'}
+addEventListener('online',net);addEventListener('offline',net);net();
 </script></body></html>
