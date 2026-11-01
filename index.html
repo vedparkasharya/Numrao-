@@ -30,12 +30,13 @@ function question(){
  q.opts.forEach(n=>{let b=document.createElement('button');b.className='answer';b.textContent=n;b.onclick=()=>choose(b,n);$('options').append(b)})
 }
 function finishRound(){
- $('bar').style.width='100%';$('count').textContent='10 / 10';
+ $('bar').style.width='100%';
  $('question').textContent='Round complete!';
- $('feedback').textContent='Your final score is '+score+' out of 10.';
- $('options').innerHTML='<div style="grid-column:1/-1;background:#f5f2ff;border-radius:16px;padding:20px;text-align:center"><div style="font-size:42px;font-weight:900;color:#7057e8">'+score+'/10</div><b>'+ (score>=8?'Excellent work!':score>=5?'Good effort!':'Keep practising!') +'</b><p style="color:#77748e;margin:8px 0 16px">Accuracy this round: '+(score*10)+'%</p><button class="primary" id="again">Practice again</button> <button class="secondary" id="homeResult">Home</button></div>';
- $('again').onclick=()=>start(topic);$('homeResult').onclick=home;
- $('next').classList.add('hidden');
+ $('options').innerHTML='';
+ $('feedback').textContent='You got '+score+' / 10 correct.';
+ $('next').disabled=false;
+ $('next').textContent='Practice again';
+ $('next').onclick=()=>start(topic);
 }
 function choose(btn,n){
  if(done)return;done=true;stats.solved++;
