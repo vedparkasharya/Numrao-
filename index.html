@@ -127,8 +127,10 @@ function makeRememberQuestion(){let n=rememberNumber;return{q:n+"² = ?",ans:n*n
 function setRangeMode(m){rangeMode=m;$("randomMode").classList.toggle("active",m==="random");$("customMode").classList.toggle("active",m==="custom");$("rangeInputs").classList.toggle("hide",m!=="custom")}
 function setDifficulty(d){difficulty=d;document.querySelectorAll("[data-diff]").forEach(b=>b.classList.toggle("active",b.dataset.diff===d))}
 function setCount(n){questionLimit=n;document.querySelectorAll("[data-count]").forEach(b=>b.classList.toggle("active",Number(b.dataset.count)===n))}
-function showConfig(){if(timerHandle)clearInterval(timerHandle);$("quizPanel").classList.add("hide");$("configPanel").classList.remove("hide")}
-function startSession(){if(rangeMode==="custom"){let lo=Number($("rangeMin").value),hi=Number($("rangeMax").value);if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){alert("Please enter a valid range. Maximum must be greater than minimum.");return}}
+let quizPanelMarkup=$("quizPanel").innerHTML;
+function restoreQuizPanel(){if(!$("quizPanel").querySelector("#question"))$("quizPanel").innerHTML=quizPanelMarkup}
+function showConfig(){if(timerHandle)clearInterval(timerHandle);restoreQuizPanel();$("quizPanel").classList.add("hide");$("configPanel").classList.remove("hide")}
+function startSession(){restoreQuizPanel();if(rangeMode==="custom"){let lo=Number($("rangeMin").value),hi=Number($("rangeMax").value);if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){alert("Please enter a valid range. Maximum must be greater than minimum.");return}}
 sessionIndex=0;sessionCorrect=0;sessionAttempted=0;qnum=0;if(selectedTopic==="squares"&&practiceMode==="remember"){rememberStart=Number($("rememberMin").value);rememberEnd=Number($("rememberMax").value);rememberRepeats=Math.max(1,Number($("repeatCount").value)||1);if(rememberStart<1||rememberEnd<rememberStart||rememberEnd-rememberStart>999){alert("Please enter a valid square range.");return}rememberNumber=rememberStart;rememberRepeatIndex=0;questionLimit=(rememberEnd-rememberStart+1)*rememberRepeats}else{questionLimit=Number(document.querySelector("[data-count].active")?.dataset.count||10)}$("configPanel").classList.add("hide");$("quizPanel").classList.remove("hide");nextQ()}
 function finishSession(){
  if(timerHandle)clearInterval(timerHandle);
