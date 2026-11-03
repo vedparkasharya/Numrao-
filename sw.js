@@ -1,4 +1,4 @@
-const CACHE='numora-cache-v13';
+const CACHE='numora-cache-v14';
 const CORE=['./','./index.html','./manifest.webmanifest','./icon.svg'];
 self.addEventListener('install',e=>e.waitUntil((async()=>{const c=await caches.open(CACHE);await c.addAll(CORE);await self.skipWaiting()})()));
 self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const k of await caches.keys())if(k.startsWith('numora-cache-')&&k!==CACHE)await caches.delete(k);await self.clients.claim()})()));
