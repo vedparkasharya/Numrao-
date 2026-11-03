@@ -194,11 +194,11 @@ function go(id){if(id==="brainGym")drawBrainGym();document.querySelectorAll(".pa
 document.querySelectorAll("[data-page],[data-nav]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page||b.dataset.nav)));
 function tile(t){return '<button class="topic" onclick="choose(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b><small>'+t.desc+'</small></button>'}
 const topicLearningPath=[
-{title:"01 · Start Here",level:"BEGINNER",hint:"Build calculation speed from the ground up",ids:["tables","addition","subtraction"]},
-{title:"02 · Core Arithmetic",level:"BEGINNER → INTERMEDIATE",hint:"Learn the four operations and their patterns",ids:["multiplication","division"]},
+{title:"01 · Core Calculation",level:"BEGINNER → ADVANCED",hint:"Follow this exact order: Sum → Subtraction → Multiplication → Square → Cube → Square Root → Cube Root",ids:["addition","subtraction","multiplication","squares","cubes","squareroot","cuberoot"]},
+{title:"02 · Calculation Foundations",level:"BEGINNER",hint:"Build speed with tables and division",ids:["tables","division"]},
 {title:"03 · Fractions & Percentages",level:"INTERMEDIATE",hint:"Essential SSC CGL arithmetic foundations",ids:["fractions","fractionconversion","percentage"]},
 {title:"04 · Number System",level:"INTERMEDIATE",hint:"Factors, divisibility, remainders and digit properties",ids:["number","divisibility","hcf","digitalsum"]},
-{title:"05 · Powers, Roots & Algebra",level:"INTERMEDIATE → ADVANCED",hint:"Squares, cubes, roots and expressions",ids:["squares","cubes","squareroot","cuberoot","algebra"]},
+{title:"05 · Powers, Roots & Algebra",level:"INTERMEDIATE → ADVANCED",hint:"Algebra and additional number skills",ids:["algebra"]},
 {title:"06 · Advanced Calculation",level:"ADVANCED",hint:"Shortcuts, unit digits and mixed calculation drills",ids:["mentaltricks","unitdigit","r_unit_digit","mixed"]},
 {title:"07 · Reasoning Foundations",level:"BEGINNER → INTERMEDIATE",hint:"Start with alphabet, codes and common patterns",ids:["coding","r_coding","r_alphabet_test","r_letter_series","r_number_series","r_analogy","r_classification","r_missing_number","r_word_formation","r_dictionary"]},
 {title:"08 · Logical Reasoning",level:"INTERMEDIATE → ADVANCED",hint:"Relationships, arrangements and statement-based logic",ids:["r_blood_relation","r_direction","r_order_ranking","r_syllogism","r_venn","r_statement","r_decision","r_critical","r_indexing","r_mathematical_ops"]},
