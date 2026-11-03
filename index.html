@@ -212,6 +212,16 @@ function playTone(correct){if(!appPrefs.sound)return;try{const C=window.AudioCon
 function resetProgress(){if(!confirm("Reset all saved practice statistics on this device? This cannot be undone."))return;statsData={attempted:0,correct:0};progressMeta={sessions:0,bestAccuracy:0,bestScore:0};localStorage.removeItem("numoraTopicStats");localStorage.removeItem("numoraProgressMeta");drawStats();closeSettings()}
 function go(id){if(id==="brainGym")drawBrainGym();document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav===id));if(id==="progress")drawStats();if(id==="practice"&&!activeQ)nextQ();window.scrollTo(0,0)}
 document.querySelectorAll("[data-page],[data-nav]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page||b.dataset.nav)));
+const topicLearningPath=[
+{title:"01 · Core Calculation",level:"BEGINNER → ADVANCED",hint:"Follow this order: Sum → Subtraction → Multiplication → Square → Cube → Square Root → Cube Root",ids:["addition","subtraction","multiplication","squares","cubes","squareroot","cuberoot"]},
+{title:"02 · Calculation Foundations",level:"BEGINNER",hint:"Build speed with mental maths, tables and division",ids:["mentaltricks","tables","division"]},
+{title:"03 · Fractions & Percentages",level:"INTERMEDIATE",hint:"Essential SSC CGL arithmetic",ids:["fractions","fractionconversion","percentage"]},
+{title:"04 · Number System",level:"INTERMEDIATE",hint:"Factors, divisibility and number properties",ids:["number","divisibility","hcf","digitalsum"]},
+{title:"05 · Algebra & Advanced Calculation",level:"INTERMEDIATE → ADVANCED",hint:"Algebra, unit digits and mixed calculation",ids:["algebra","unitdigit","mixed"]},
+{title:"06 · Reasoning Foundations",level:"BEGINNER → INTERMEDIATE",hint:"Start with core verbal and number patterns",ids:["coding","r_coding","r_alphabet_test","r_letter_series","r_number_series","r_analogy","r_classification","r_missing_number","r_word_formation","r_dictionary","r_mathematical_ops"]},
+{title:"07 · Analytical Reasoning",level:"INTERMEDIATE",hint:"Relations, directions, order and logical conclusions",ids:["r_blood_relation","r_direction","r_order_ranking","r_syllogism","r_venn","r_statement"]},
+{title:"08 · Advanced Reasoning",level:"ADVANCED",hint:"Calendar, clock, non-verbal and spatial reasoning",ids:["r_calendar","r_clock","r_nonverbal","r_unit_digit","r_mirror","r_paper_fold","r_embedded","r_spatial","r_matrix","r_decision","r_critical","r_indexing"]}
+];
 function tile(t){return '<button class="topic" onclick="choose(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b><small>'+(t.desc||"Practice this topic step by step")+'</small></button>'}
 function groupedTopicHTML(noteMode){
 const used=new Set();
