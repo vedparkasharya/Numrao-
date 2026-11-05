@@ -672,6 +672,265 @@ function buildTopicMemory(id){
  if(id==="r_clock"){add("Angle between clock hands","|30H−5.5M| degrees; choose the smaller angle");add("Minute hand speed","6° per minute");add("Hour hand speed","0.5° per minute")}
  if(id==="r_direction"){add("Right turn","Clockwise 90°");add("Left turn","Anticlockwise 90°")}
  if(id==="r_order_ranking"){add("Total people in a row","Left rank + right rank − 1");add("Rank from opposite end","Total − given rank + 1")}
+
+ const topicMemoryBank={
+ addition:[
+ ["Make 10 strategy","Move a number to the next ten, then add the balance: 48+37 = 50+35 = 85."],
+ ["Place-value addition","Add ones, tens, hundreds separately; regroup every 10."],
+ ["Commutative property","a+b=b+a; changing the order does not change the sum."],
+ ["Associative property","(a+b)+c=a+(b+c); regrouping does not change the sum."],
+ ["Additive identity","a+0=a."],
+ ["Estimation check","Round numbers to nearby tens/hundreds to check whether an answer is reasonable."]
+ ],
+ subtraction:[
+ ["Subtraction identity","Minuend − Subtrahend = Difference."],
+ ["Verification","Difference + Subtrahend = Minuend."],
+ ["Equal addition rule","a−b=(a+k)−(b+k); add the same number to both."],
+ ["Compensation","1000−498 = 1000−500+2 = 502."],
+ ["Subtraction is not commutative","a−b is generally not equal to b−a."],
+ ["Borrowing","Regroup one unit of the next place as 10 units of the current place."]
+ ],
+ multiplication:[
+ ["Commutative property","a×b=b×a."],["Associative property","(a×b)×c=a×(b×c)."],
+ ["Distributive property","a×(b+c)=ab+ac."],["Multiplication by 0","a×0=0."],
+ ["Multiplication by 1","a×1=a."],["Multiply by 5","n×5=(n×10)÷2."],
+ ["Multiply by 25","n×25=(n×100)÷4."],["Multiply by 99","n×99=n×100−n."]
+ ],
+ division:[
+ ["Division identity","Dividend = Divisor × Quotient + Remainder."],
+ ["Remainder condition","For a positive divisor d: 0 ≤ remainder < d."],
+ ["Division by 5","n÷5 = 2n÷10."],["Division by 25","n÷25 = 4n÷100."],
+ ["Division by 125","n÷125 = 8n÷1000."],["Zero divided by nonzero","0÷a=0, when a≠0."],
+ ["Division by zero","Division by 0 is undefined."]
+ ],
+ fractions:[
+ ["Equivalent fractions","Multiply or divide numerator and denominator by the same non-zero number."],
+ ["Simplest form","Divide numerator and denominator by their HCF."],
+ ["Addition with same denominator","a/c+b/c=(a+b)/c."],
+ ["Addition with unlike denominators","Take the LCM of denominators, convert, then add."],
+ ["Multiplication","a/b × c/d = ac/bd."],
+ ["Division","a/b ÷ c/d = a/b × d/c; c/d must not be zero."],
+ ["Fraction of a quantity","a/b of N = (N÷b)×a."],
+ ["Compare unit fractions","For positive denominators, the larger denominator gives the smaller unit fraction."]
+ ],
+ digitalsum:[
+ ["Digital sum","Add all digits repeatedly until one digit remains for the digital root."],
+ ["Divisibility by 3","A number is divisible by 3 when its digit sum is divisible by 3."],
+ ["Divisibility by 9","A number is divisible by 9 when its digit sum is divisible by 9."],
+ ["Remainder modulo 9","A number and its digit sum have the same remainder when divided by 9."],
+ ["Digital root formula","For positive n: 1+((n−1) mod 9)."],
+ ["Important limitation","Digital-root checking can detect many errors but cannot prove a calculation is correct."]
+ ],
+ number:[
+ ["Even number","An integer divisible by 2; its unit digit is 0, 2, 4, 6 or 8."],
+ ["Prime number","An integer greater than 1 with exactly two positive factors: 1 and itself."],
+ ["Composite number","An integer greater than 1 with more than two positive factors."],
+ ["Co-prime numbers","Two integers whose HCF is 1."],
+ ["Divisibility by 4","The number formed by the last two digits is divisible by 4."],
+ ["Divisibility by 8","The number formed by the last three digits is divisible by 8."],
+ ["Divisibility by 11","The difference of alternating digit sums is 0 or a multiple of 11."],
+ ["Euclid division lemma","a=bq+r, where 0≤r<b for positive b."]
+ ],
+ mixed:[
+ ["Digital root of a product","dr(a×b)=dr(dr(a)×dr(b)); useful only as a check modulo 9."],
+ ["Division check","Use dividend = divisor×quotient + remainder."],
+ ["Remainder range","Remainder is always smaller than the positive divisor."],
+ ["Digital sum vs digital root","Digit sum may be 40; digital root is 4."]
+ ],
+ mentaltricks:[
+ ["Multiply by 11","For a two-digit number ab, add a+b between the digits; carry if the sum is 10 or more."],
+ ["Multiply by 9","n×9=n×10−n."],["Multiply by 99","n×99=n×100−n."],
+ ["Square ending in 5","For 35²: 3×4, then append 25 → 1225."],
+ ["Near 100 multiplication","(100−a)(100−b): left part 100−a−b; right part a×b as two digits."],
+ ["Difference of squares","a²−b²=(a−b)(a+b)."],
+ ["Multiply by 125","n×125=n×1000÷8."]
+ ],
+ unitdigit:[
+ ["Cycle of 2","2, 4, 8, 6; repeats every 4 powers."],
+ ["Cycle of 3","3, 9, 7, 1; repeats every 4 powers."],
+ ["Cycle of 4","4, 6; repeats every 2 powers."],
+ ["Cycle of 7","7, 9, 3, 1; repeats every 4 powers."],
+ ["Cycle of 8","8, 4, 2, 6; repeats every 4 powers."],
+ ["Cycle of 9","9, 1; repeats every 2 powers."],
+ ["Exponent rule","Divide exponent by cycle length; remainder 0 means use the last cycle term."],
+ ["Product unit digit","Multiply only the unit digits, then take the final digit."]
+ ],
+ r_analogy:[
+ ["Analogy method","Identify the exact relation in the first pair, then apply the same relation to the second."],
+ ["Number analogy checks","Test addition, subtraction, multiplication, division, squares, cubes and prime relations."],
+ ["Alphabet analogy","Convert letters to positions A=1…Z=26; check forward/backward shifts."],
+ ["Word analogy","Check synonym, antonym, part–whole, worker–tool, cause–effect and category."],
+ ["Option elimination","Reject options that do not preserve the same relation."]
+ ],
+ r_classification:[
+ ["Odd-one-out method","Find the common property shared by three or more items; select the item that breaks it."],
+ ["Number classification","Check parity, prime/composite, divisibility, squares, cubes and digit patterns."],
+ ["Letter classification","Check alphabet positions, vowels/consonants, order and gaps."],
+ ["Word classification","Check meaning, category, function and part–whole relationship."]
+ ],
+ r_number_series:[
+ ["First-difference method","Subtract consecutive terms; inspect the differences."],
+ ["Second-difference method","If first differences are irregular, subtract them again."],
+ ["Multiplication pattern","Check ×2, ×3, ÷2 and alternating multiplication/addition."],
+ ["Square/cube pattern","Compare terms with n², n³,  n²±k and n³±k."],
+ ["Alternate series","Separate odd-position and even-position terms."],
+ ["Prime series","Check consecutive or selected prime numbers."]
+ ],
+ r_letter_series:[
+ ["Alphabet positions","A=1, B=2, … Z=26."],
+ ["Reverse positions","A=26, B=25, … Z=1."],
+ ["Wrap-around","After Z, continue from A; before A, move back from Z."],
+ ["Letter gaps","Convert letters to positions and calculate each jump."],
+ ["Alternate pattern","Check odd and even positions as two separate sequences."],
+ ["Opposite letters","A–Z, B–Y, C–X; opposite positions total 27."]
+ ],
+ r_mathematical_ops:[
+ ["Order of operations","Brackets → Orders → Division/Multiplication → Addition/Subtraction."],
+ ["Interchanged signs","Replace each symbol exactly as instructed before calculating."],
+ ["Interchanged numbers","Replace the digits/numbers first, then apply the required operations."],
+ ["BODMAS caution","Multiplication and division have equal priority; solve left to right. Same for addition and subtraction."]
+ ],
+ r_alphabet_test:[
+ ["Alphabet position","A=1 through Z=26."],["Reverse position","Reverse position = 27 − normal position."],
+ ["Letters between two letters","Absolute difference of positions − 1."],
+ ["Opposite letter","Position p maps to 27−p."],
+ ["EJOTY anchors","E=5, J=10, O=15, T=20, Y=25."]
+ ],
+ r_blood_relation:[
+ ["Draw a family tree","Mark each generation on a separate level; do not solve only by reading the sentence."],
+ ["Father's/mother's brother","Uncle."],["Father's/mother's sister","Aunt."],
+ ["Sibling's son","Nephew."],["Sibling's daughter","Niece."],
+ ["Paternal","Related through the father's side."],["Maternal","Related through the mother's side."],
+ ["Gender clue","Do not assume gender unless the statement establishes it."]
+ ],
+ r_direction:[
+ ["Cardinal directions","North is opposite South; East is opposite West."],
+ ["Right turn","90° clockwise."],["Left turn","90° anticlockwise."],
+ ["U-turn","180° turn; direction becomes opposite."],
+ ["Opposite direction","N↔S and E↔W."],
+ ["Shortest distance","For perpendicular movement, use √(horizontal²+vertical²)."],
+ ["Track displacement","Only net change from start to finish determines displacement."]
+ ],
+ r_order_ranking:[
+ ["Total persons in a row","Left rank + right rank − 1."],
+ ["Rank from opposite end","Total − given rank + 1."],
+ ["Persons between two ranks","Difference between ranks − 1, when positions are in the same line."],
+ ["Swap positions","After two people swap, each takes the other's original rank."],
+ ["Extreme positions","First rank is 1; last rank equals total persons."]
+ ],
+ r_syllogism:[
+ ["All A are B","A is fully inside B; it does not mean all B are A."],
+ ["No A is B","A and B have no common member."],
+ ["Some A are B","At least one member is common; not necessarily all."],
+ ["Some A are not B","At least one A lies outside B."],
+ ["Possibility","Accept a conclusion only if it can be true without violating any statement."],
+ ["Do not reverse","All A are B does not imply all B are A."]
+ ],
+ r_venn:[
+ ["Subset relation","All A are B: circle A lies completely inside circle B."],
+ ["Disjoint sets","No A is B: circles do not overlap."],
+ ["Intersection","Some A are B: circles overlap."],
+ ["Three-set diagram","Place the common intersection first, then the pairwise-only regions."],
+ ["Venn rule","Use only relationships guaranteed by the statements."]
+ ],
+ r_statement:[
+ ["Conclusion test","A conclusion must follow from the statement, not from outside knowledge."],
+ ["Strong conclusion","Must be supported by the given facts; avoid extreme claims unless stated."],
+ ["Assumption","An unstated idea required for the argument to work."],
+ ["Inference","A result that is necessarily or reasonably supported by the information."],
+ ["Scope","Do not extend a conclusion beyond the people, time or conditions in the statement."]
+ ],
+ r_missing_number:[
+ ["Grid method","Check each row and column separately before testing diagonals."],
+ ["Common operations","Try sum, difference, product, division and squares."],
+ ["Position pattern","Check whether the centre or missing value depends on corners."],
+ ["Consistency","A proposed rule should explain every completed row/column, not just one."]
+ ],
+ r_word_formation:[
+ ["Letter availability","A letter cannot be used more times than it appears in the given word."],
+ ["Length check","The formed word cannot contain more letters than the source letters."],
+ ["Rearrangement","Word formation changes order, not the available letters."],
+ ["Elimination","Reject options containing unavailable or excess letters."]
+ ],
+ r_dictionary:[
+ ["Dictionary order","Compare words letter by letter from left to right."],
+ ["Prefix rule","If one word is the complete beginning of another, the shorter word comes first."],
+ ["First difference","The first unequal letter decides the order."],
+ ["Same beginning","Continue comparing until the first different character."]
+ ],
+ r_calendar:[
+ ["Ordinary year","365 days = 52 weeks + 1 odd day."],
+ ["Leap year","366 days = 52 weeks + 2 odd days."],
+ ["Leap year test","Divisible by 400, or divisible by 4 but not by 100."],
+ ["Century year","A century year is leap only if divisible by 400."],
+ ["Odd days","Ignore complete weeks; keep the remainder days."],
+ ["Day shift","Add odd days modulo 7."]
+ ],
+ r_clock:[
+ ["Minute hand speed","6° per minute."],["Hour hand speed","0.5° per minute."],
+ ["Relative speed","Minute hand gains 5.5° per minute over hour hand."],
+ ["Angle formula","|30H−5.5M| degrees; choose the smaller angle (H on 12-hour clock)."],
+ ["Right angle","90°."],["Straight angle","180°."],["Coincidence","Hands overlap when their angular positions are equal."]
+ ],
+ r_nonverbal:[
+ ["Figure series","Track rotation, reflection, count, shading, size and position separately."],
+ ["Figure analogy","Apply the same transformation from first figure to second."],
+ ["Mirror image","Left and right reverse; top and bottom remain in the same order."],
+ ["Water image","Top and bottom reverse; left and right remain in the same order."],
+ ["Counting figures","Count smallest shapes first, then combine them systematically."]
+ ],
+ r_mirror:[
+ ["Mirror image","A mirror reverses left and right, not top and bottom."],
+ ["Water image","A water reflection reverses top and bottom, not left and right."],
+ ["Clock in mirror","For a 12-hour clock: mirror time = 11:60 − actual time."],
+ ["Text reflection","Letters with vertical symmetry may look unchanged; others reverse."]
+ ],
+ r_paper_fold:[
+ ["Fold tracking","Record every fold direction and layer before unfolding."],
+ ["Hole symmetry","Each unfold reflects the hole across the fold line."],
+ ["Number of holes","A hole through k folded layers usually produces 2^k holes after full unfolding, if folds are all effective."],
+ ["Fold direction","A hole's final position depends on the order and direction of folds."]
+ ],
+ r_embedded:[
+ ["Embedded figure","Ignore size and orientation changes; search for the same line structure."],
+ ["Trace method","Follow distinctive angles, intersections and line connections."],
+ ["Distractors","Do not count lines that cross without joining unless the figure shows a junction."],
+ ["Rotation","Mentally rotate the target shape before rejecting a match."]
+ ],
+ r_spatial:[
+ ["Rotation","Track each object relative to a fixed reference point."],
+ ["Cube opposite faces","In a standard net, identify folds; opposite faces never share an edge."],
+ ["3D orientation","Track front/back, left/right and top/bottom separately."],
+ ["Viewpoint","A change of observer position can change visible faces, not the object's structure."]
+ ],
+ r_matrix:[
+ ["Matrix rule","Test each row and column for a consistent relationship."],
+ ["Arithmetic matrix","Check sums, differences, products, ratios and squares."],
+ ["Figure matrix","Compare rotation, reflection, shading, count and position."],
+ ["Validation","One rule must explain all rows/columns, not only the missing cell."]
+ ],
+ r_decision:[
+ ["Decision questions","Apply every stated condition in the given order."],
+ ["Eligibility","A candidate qualifies only if all mandatory conditions are satisfied."],
+ ["Exception","Apply exceptions only when their exact condition is met."],
+ ["Do not assume","Use only information supplied in the question."]
+ ],
+ r_critical:[
+ ["Fact vs opinion","A fact can be verified; an opinion expresses a belief or judgment."],
+ ["Assumption","An unstated premise needed to support the argument."],
+ ["Inference","A conclusion supported by the given evidence."],
+ ["Strengthen","Choose information that makes the argument more convincing."],
+ ["Weaken","Choose information that challenges the link between evidence and conclusion."]
+ ],
+ r_indexing:[
+ ["Indexing","Match each field independently before selecting the complete record."],
+ ["Code matching","Check every character; leading zeroes may be significant."],
+ ["Date matching","Keep day, month and year in the specified order."],
+ ["Address matching","Distinguish similar names using all available fields."],
+ ["Cross-check","Verify the final match against every condition in the question."]
+ ]
+ };
+ (topicMemoryBank[id]||[]).forEach(([front,back])=>add(front,back));
  return topicMemoryRandom?memShuffle(cards):cards;
 }
 function startTopicRemember(random=false){
