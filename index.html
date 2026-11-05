@@ -948,7 +948,7 @@ function startTopicRemember(random=false){
  }
  let html='<div class="panel"><div class="sqStageTop"><div><div class="tag">REMEMBER MODE · LEARN FIRST</div><h2 style="margin:4px 0">'+memEscape(title)+'</h2></div><span class="pill">'+topicMemoryCards.length+' facts</span></div><p class="muted">Study these facts once. They are arranged in groups of five.</p>';
  html+=fractionChart;
- for(let i=0;i<topicMemoryCards.length;i+=5)html+='<div class="sqLearnGroup"><h3>Group '+(Math.floor(i/5)+1)+'</h3><div class="sqLearnCards">'+topicMemoryCards.slice(i,i+5).map(c=>'<div class="sqLearnCard"><b style="font-size:15px">'+memEscape(c.front)+'</b><span style="display:block;font-size:13px;margin-top:7px">'+memEscape(c.back)+'</span></div>').join("")+'</div></div>';
+ if(selectedTopic!=="fractionconversion")for(let i=0;i<topicMemoryCards.length;i+=5)html+='<div class="sqLearnGroup"><h3>Group '+(Math.floor(i/5)+1)+'</h3><div class="sqLearnCards">'+topicMemoryCards.slice(i,i+5).map(c=>'<div class="sqLearnCard"><b style="font-size:15px">'+memEscape(c.front)+'</b><span style="display:block;font-size:13px;margin-top:7px">'+memEscape(c.back)+'</span></div>').join("")+'</div></div>';
  html+='<button class="btn startBtn" onclick="startTopicMemoryQuiz()">I have revised these → Start mixed MCQ</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="showConfig()">Back to settings</button></div>';
  $("quizPanel").innerHTML=html;$("configPanel").classList.add("hide");$("practicePicker").classList.add("hide");$("quizPanel").classList.remove("hide");window.scrollTo({top:0,behavior:"smooth"});
 }
