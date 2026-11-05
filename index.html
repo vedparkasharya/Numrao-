@@ -677,8 +677,17 @@ function buildTopicMemory(id){
 function startTopicRemember(random=false){
  topicMemoryRandom=random;topicMemoryCards=buildTopicMemory(selectedTopic);
  if(!topicMemoryCards.length){alert("Learning facts are not available for this topic yet.");return}
- const title=topics.find(x=>x.id===selectedTopic)?.name||selectedTopic;let html='<div class="panel"><div class="sqStageTop"><div><div class="tag">REMEMBER MODE · LEARN FIRST</div><h2 style="margin:4px 0">'+memEscape(title)+'</h2></div><span class="pill">'+topicMemoryCards.length+' facts</span></div><p class="muted">Study these facts once. They are arranged in groups of five.</p>';
- for(let i=0;i<topicMemoryCards.length;i+=5)html+='<div class="sqLearnGroup"><h3>Group '+(Math.floor(i/5)+1)+'</h3><div class="sqLearnCards">'+topicMemoryCards.slice(i,i+5).map(c=>'<div class="sqLearnCard"><b style="font-size:15px">'+memEscape(c.front)+'</b><span style="display:block;font-size:13px;margin-top:7px">'+memEscape(c.back)+'</span></div>').join("")+'</div></div>';
+ const title=topics.find(x=>x.id===selectedTopic)?.name||selectedTopic;
+ let fractionChart="";
+ if(selectedTopic==="fractionconversion"){
+  const gcd=(a,b)=>b?gcd(b,a%b):a;
+  const pct=n=>{const whole=Math.floor(100/n),rem=100%n;if(!rem)return whole+"%";const g=gcd(rem,n);return whole?whole+" "+(rem/g)+"/"+(n/g)+"%":(rem/g)+"/"+(n/g)+"%"};
+  fractionChart='<div class="sqLearnGroup"><h3>Fraction → Percentage · Master Chart (1 to 30)</h3><p class="muted">Rule: divide numerator by denominator, then multiply by 100. For 1/n: 100 ÷ n. Reduce the fractional remainder to lowest terms.</p><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;text-align:center;font-size:13px"><thead><tr style="background:#171717;color:#ffe500"><th style="padding:9px">Fraction</th><th style="padding:9px">Percentage</th><th style="padding:9px">Fraction</th><th style="padding:9px">Percentage</th></tr></thead><tbody>';
+  for(let n=1;n<=15;n++){const m=n+15;fractionChart+='<tr style="background:'+(n%2?'#f0f0f0':'#fff')+';color:#111"><td style="padding:8px">1/'+n+'</td><td style="padding:8px;font-weight:600">'+pct(n)+'</td><td style="padding:8px">1/'+m+'</td><td style="padding:8px;font-weight:600">'+pct(m)+'</td></tr>'}
+  fractionChart+='</tbody></table></div><p class="muted" style="margin-top:9px"><b>Examples:</b> 1/3 × 100 = 100/3 = 33 1/3%; 1/8 × 100 = 100/8 = 12 1/2%; 1/14 × 100 = 100/14 = 7 1/7%; 1/15 × 100 = 100/15 = 6 2/3%.</p></div>';
+ }
+ let html='<div class="panel"><div class="sqStageTop"><div><div class="tag">REMEMBER MODE · LEARN FIRST</div><h2 style="margin:4px 0">'+memEscape(title)+'</h2></div><span class="pill">'+topicMemoryCards.length+' facts</span></div><p class="muted">Study these facts once. They are arranged in groups of five.</p>';
+ html+=fractionChart;\n for(let i=0;i<topicMemoryCards.length;i+=5)html+='<div class="sqLearnGroup"><h3>Group '+(Math.floor(i/5)+1)+'</h3><div class="sqLearnCards">'+topicMemoryCards.slice(i,i+5).map(c=>'<div class="sqLearnCard"><b style="font-size:15px">'+memEscape(c.front)+'</b><span style="display:block;font-size:13px;margin-top:7px">'+memEscape(c.back)+'</span></div>').join("")+'</div></div>';
  html+='<button class="btn startBtn" onclick="startTopicMemoryQuiz()">I have revised these → Start mixed MCQ</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="showConfig()">Back to settings</button></div>';
  $("quizPanel").innerHTML=html;$("configPanel").classList.add("hide");$("practicePicker").classList.add("hide");$("quizPanel").classList.remove("hide");window.scrollTo({top:0,behavior:"smooth"});
 }
