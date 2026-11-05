@@ -66,6 +66,9 @@ body.dark .note li,body.dark .ruleCard p{color:#c5cfdd}body.dark .ruleCard{backg
 #home .heading h2{font-size:clamp(29px,5vw,42px);line-height:1.12;letter-spacing:-1.2px;margin:0 0 8px}
 #home .heading .muted{font-size:17px;color:#7b8781}
 @media(max-width:380px){#homeTopics{gap:10px!important}#homeTopics .topic{min-height:220px;padding:13px;border-radius:19px}#homeTopics .topic b{font-size:16px}#homeTopics .topic small{font-size:12px}}
+</style><style id="squareLearningLabStyles">
+.squareLab{margin:22px 0}.squareLabHero{padding:22px;border-radius:22px;background:linear-gradient(130deg,#6241df,#a54eea);color:#fff}.squareLabHero .tag,.squareLabHero p{color:#f1eaff}.squareLabHero h2{font-size:26px;margin:5px 0}.squareLabHero p{margin:0}.squareLab .panel{margin-top:14px}.squareLab .panel h3{margin:3px 0 12px}.squareFormGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.squareFormGrid label{font-size:13px;font-weight:750;color:var(--muted)}.squareFormGrid input,.squareFormGrid select{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}.squareHint{padding:11px 13px;margin-top:12px;border-radius:12px;background:#f0ebff;color:#6540c7;font-size:13px;font-weight:750}.sqLearnGroup{margin:14px 0}.sqLearnGroup h3{font-size:16px;margin:0 0 9px}.sqLearnCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.sqLearnCard{padding:13px 8px;border:1px solid var(--line);border-radius:14px;background:var(--bg);text-align:center}.sqLearnCard b{display:block;font-size:23px}.sqLearnCard span{font-size:17px;color:var(--green);font-weight:850}.sqStageTop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.sqQuestion{font-size:clamp(26px,6vw,38px);font-weight:900;text-align:center;margin:25px 0}.sqOptions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.sqOptions button{padding:16px 8px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font-size:19px;font-weight:850}.sqOptions button.correct{background:#dff5e9;border-color:#15985e;color:#087443}.sqOptions button.wrong{background:#fbe3e3;border-color:#d94343;color:#b4232c}.sqProgress{height:7px;background:var(--line);border-radius:8px;overflow:hidden;margin:13px 0}.sqProgress i{display:block;height:100%;background:#159d8d}.sqFeedback{text-align:center;min-height:28px;font-weight:800;margin:12px 0}.sqResult{text-align:center;padding:20px}.sqResult strong{display:block;font-size:42px;color:var(--green)}.sqTyped{display:flex;gap:8px}.sqTyped input{min-width:0;flex:1;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}@media(max-width:390px){.squareFormGrid{grid-template-columns:1fr}.sqLearnCards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+body.dark .sqLearnCard,body.dark .squareFormGrid input,body.dark .squareFormGrid select,body.dark .sqTyped input{background:#202c3c;color:#f4f6fb;border-color:#303b4d}body.dark .squareHint{background:#30284a;color:#dfd2ff}
 </style></head><body><div id="numoraSplash" class="numoraSplash" role="status" aria-label="Opening Numora"><div class="splashOrb"><span>∑</span><i></i><i></i><i></i></div><div class="splashName">NUMORA</div><div class="splashLine">Train your mind. Master the numbers.</div><div class="splashLoader"><i></i></div><button class="splashSkip" onclick="dismissNumoraSplash()">Skip</button></div><div class="wrap"><header class="top"><div class="brand"><i>∑</i><div><b>Numora</b><small>Sharpen your math skills</small></div></div><button class="settings" aria-label="Settings" onclick="openSettings()">⚙</button></header>
 <aside id="appSettings" class="hide" aria-label="App settings"><div class="settingScrim" onclick="closeSettings()"></div><div class="settingSheet"><div class="settingHead"><div><div class="tag">NUMORA PREFERENCES</div><h2>Settings</h2></div><button class="settings" onclick="closeSettings()">×</button></div><label class="settingRow"><span><b>Dark mode</b><small>Comfortable low-light appearance</small></span><input id="darkToggle" type="checkbox" onchange="toggleDarkMode(this.checked)"></label><label class="settingRow"><span><b>Sound effects</b><small>Subtle feedback for answers</small></span><input id="soundToggle" type="checkbox" onchange="toggleSound(this.checked)"></label><div class="settingActions"><button class="btn alt" onclick="closeSettings()">Done</button><button class="btn danger" onclick="resetProgress()">Reset progress</button></div><p class="muted settingPrivacy">Your settings and practice records stay on this device.</p></div></aside><section id="home" class="page active"><div class="heading"><h2>Practice Sessions</h2><span class="muted">Choose a topic</span></div><div id="homeTopics" class="grid">
 <button class="topic" onclick="choose('addition')"><span class="ico">➕</span><b>Addition</b><small>Fast addition and number sums</small></button>
@@ -98,7 +101,30 @@ body.dark .note li,body.dark .ruleCard p{color:#c5cfdd}body.dark .ruleCard{backg
 </div>
 <div id="arenaQuiz" class="arenaQuiz hide"><div class="arenaQuizTop"><b id="arenaModeLabel">DAILY MISSION</b><span id="arenaCounter">1 / 10</span><span id="arenaTimer"></span></div><div class="arenaTrack"><i id="arenaTrackFill"></i></div><div class="arenaQuestion" id="arenaQuestion"></div><div class="arenaOptions" id="arenaOptions"></div><div class="arenaFeedback" id="arenaFeedback"></div><button class="btn" id="arenaNext" onclick="arenaNext()" disabled>Next question →</button></div>
 <div id="arenaResult" class="arenaResult hide"></div>
-</section><section id="learn" class="page"><div class="heading"><h2>Learning & Practice</h2><span class="muted">Study or start a practice session</span></div><div class="learnSwitch"><button id="studyMode" class="mode active" onclick="setLearnMode('study')">📘 Study Notes</button><button id="practiceMode" class="mode" onclick="setLearnMode('practice')">🎯 Practice Sessions</button></div><div id="studyArea"><button class="btn" style="width:100%;margin:0 0 14px;background:linear-gradient(100deg,#6b42eb,#a44ee9)" onclick="openDivisibility()">🔢 Learn all Divisibility Rules →</button><input id="search" class="search" placeholder="Search notes or topic…"><div id="learnTopics" class="grid"></div><div id="notes"></div></div><div id="learnPracticeArea" class="hide"><p class="muted">Choose a topic and start solving questions.</p><div id="learnPracticeTopics" class="grid"></div></div><style>
+</section><section id="learn" class="page"><div class="heading"><h2>Learning & Practice</h2><span class="muted">Study or start a practice session</span></div><div class="learnSwitch"><button id="studyMode" class="mode active" onclick="setLearnMode('study')">📘 Study Notes</button><button id="practiceMode" class="mode" onclick="setLearnMode('practice')">🎯 Practice Sessions</button></div><div id="studyArea"><button class="btn" style="width:100%;margin:0 0 14px;background:linear-gradient(100deg,#6b42eb,#a44ee9)" onclick="openDivisibility()">🔢 Learn all Divisibility Rules →</button><input id="search" class="search" placeholder="Search notes or topic…"><div id="learnTopics" class="grid"></div><div id="notes"></div></div><div id="learnPracticeArea" class="hide"><p class="muted">Choose a topic and start solving questions.</p><div id="learnPracticeTopics" class="grid"></div>
+<div class="squareLab" id="squareLearningLab">
+ <div class="squareLabHero"><div class="tag">SMART MEMORY TRAINING</div><h2>² Square Learning Lab</h2><p>First learn the selected squares once, then test yourself with mixed MCQs.</p></div>
+ <div id="squareSetup" class="panel">
+  <h3>1. Choose your square set</h3>
+  <div class="squareFormGrid">
+   <label>Starting number<input id="sqStart" type="number" min="1" max="999" value="15"></label>
+   <label>How many squares?<select id="sqAmount"><option value="5" selected>5 squares</option><option value="10">10 squares</option><option value="20">20 squares</option><option value="30">30 squares</option><option value="50">50 squares</option><option value="custom">Custom range</option></select></label>
+   <label id="sqEndWrap" class="hide">Ending number<input id="sqEnd" type="number" min="1" max="999" value="19"></label>
+   <label>Display group size<select id="sqGroup"><option value="5" selected>Group of 5</option><option value="10">Group of 10</option><option value="all">All together</option></select></label>
+  </div>
+  <div class="squareHint" id="sqSetPreview">You will learn squares from 15² to 19².</div>
+  <h3 style="margin-top:22px">2. Mixed MCQ settings</h3>
+  <div class="squareFormGrid">
+   <label>Questions<select id="sqQuestionCount"><option>10</option><option selected>20</option><option>30</option><option>50</option><option>100</option></select></label>
+   <label>Question level<select id="sqLevel"><option value="basic">Basic · Direct squares</option><option value="mixed" selected>Mixed · Direct + reverse</option><option value="advanced">Advanced · Mixed operations</option></select></label>
+   <label>Repeated questions<select id="sqRepeat"><option value="yes" selected>Allow repeats</option><option value="no">Avoid repeats where possible</option></select></label>
+   <label>Answer type<select id="sqAnswerType"><option value="mcq" selected>4-option MCQ</option><option value="typed">Type the answer</option></select></label>
+  </div>
+  <button class="btn startBtn" style="margin-top:20px" onclick="sqBeginLearning()">Start Learning →</button>
+ </div>
+ <div id="sqLearnStage" class="hide"></div>
+ <div id="sqQuizStage" class="hide"></div>
+</div></div><style>
 .pyqSourceHub{margin:16px 0;padding:18px;border:1px solid #dce7df;border-radius:20px;background:linear-gradient(145deg,#f0f7ff,#f4efff)}
 .pyqSourceHub h3{margin:0 0 5px;font-size:19px}.pyqSourceHub .sub{color:#64748b;margin:0 0 14px;font-size:13px}
 .pyqSourceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -549,4 +575,68 @@ function arenaNext(){if(!arenaLocked)return;arenaIndex++;if(arenaIndex>=10){fini
 function finishArena(){if(arenaTimerHandle){clearInterval(arenaTimerHandle);arenaTimerHandle=null}const total=arenaMode==="sprint"?arenaIndex+1:10,pct=total?Math.round(arenaScore/total*100):0,today=arenaDay();arenaData.completed++;arenaData.best=Math.max(arenaData.best,arenaScore);if(arenaMode==="daily"&&arenaData.dailyDate!==today){let yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);let y=yesterday.getFullYear()+"-"+String(yesterday.getMonth()+1).padStart(2,"0")+"-"+String(yesterday.getDate()).padStart(2,"0");arenaData.streak=arenaData.lastDay===y?arenaData.streak+1:1;arenaData.lastDay=today;arenaData.dailyDate=today;arenaData.dailyScore=arenaScore}arenaData.history.unshift({date:today,mode:arenaMode,score:arenaScore,total,pct});arenaData.history=arenaData.history.slice(0,30);localStorage.setItem(arenaKey,JSON.stringify(arenaData));$("arenaQuiz").classList.add("hide");$("arenaResult").classList.remove("hide");$("arenaResult").innerHTML='<div class="tag">MISSION COMPLETE</div><h2>'+(pct>=80?"Outstanding work!":pct>=50?"Good progress!":"Keep training!")+'</h2><div class="bigScore">'+arenaScore+' / '+total+'</div><p>Accuracy: '+pct+'%'+(arenaMode==="sprint"?" · Time used: "+(60-arenaTime)+" seconds":"")+'</p><button class="btn" onclick="startArena(\''+arenaMode+'\')">Try again ↻</button> <button class="btn alt" onclick="openTrainingArena()">Arena home</button>';drawArenaStats()}
 function dismissNumoraSplash(){const splash=document.getElementById("numoraSplash");if(!splash||splash.classList.contains("isLeaving"))return;splash.classList.add("isLeaving");setTimeout(()=>splash.remove(),460)}
 (function(){const splash=document.getElementById("numoraSplash");if(!splash)return;const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;setTimeout(dismissNumoraSplash,reduced?450:1750)})();
+
+/* Square Learning Lab: one-time learning display followed by mixed MCQ practice. */
+let sqNumbers=[],sqQuestionsDone=0,sqCorrect=0,sqCurrent=null,sqLocked=false,sqSeen=new Set(),sqAnswered=0;
+function sqGetSet(){
+ const start=Math.max(1,Math.min(999,Number($("sqStart").value)||1)),amount=$("sqAmount").value;
+ let end=amount==="custom"?Math.max(start,Math.min(999,Number($("sqEnd").value)||start)):Math.min(999,start+Number(amount)-1);
+ return Array.from({length:end-start+1},(_,i)=>start+i);
+}
+function sqUpdatePreview(){
+ const nums=sqGetSet();$("sqSetPreview").textContent=nums.length+" squares selected: "+nums[0]+"² to "+nums[nums.length-1]+"² · "+nums.length+" learning cards.";
+}
+$("sqAmount").addEventListener("change",()=>{$("sqEndWrap").classList.toggle("hide",$("sqAmount").value!=="custom");sqUpdatePreview()});
+$("sqStart").addEventListener("input",sqUpdatePreview);$("sqEnd").addEventListener("input",sqUpdatePreview);
+function sqBeginLearning(){
+ sqNumbers=sqGetSet();if(!sqNumbers.length||sqNumbers.length>999){alert("Please choose a valid square range.");return}
+ const group=$("sqGroup").value==="all"?sqNumbers.length:Number($("sqGroup").value);
+ let html='<div class="panel"><div class="sqStageTop"><div><div class="tag">LEARNING PHASE · ONCE</div><h2 style="margin:4px 0">Remember these squares</h2></div><span class="pill">'+sqNumbers.length+' cards</span></div><p class="muted">Study the number and its square. This learning list appears once before your test.</p>';
+ for(let i=0;i<sqNumbers.length;i+=group){html+='<div class="sqLearnGroup"><h3>Group '+(Math.floor(i/group)+1)+'</h3><div class="sqLearnCards">'+sqNumbers.slice(i,i+group).map(n=>'<div class="sqLearnCard"><b>'+n+'²</b><span>= '+(n*n).toLocaleString("en-IN")+'</span></div>').join("")+'</div></div>'}
+ html+='<button class="btn startBtn" onclick="sqStartQuiz()">I have learned these → Start mixed MCQ</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="sqBackSetup()">Change selection</button></div>';
+ $("squareSetup").classList.add("hide");$("sqQuizStage").classList.add("hide");$("sqLearnStage").innerHTML=html;$("sqLearnStage").classList.remove("hide");window.scrollTo({top:$("squareLearningLab").offsetTop-12,behavior:"smooth"});
+}
+function sqBackSetup(){$("sqLearnStage").classList.add("hide");$("sqQuizStage").classList.add("hide");$("squareSetup").classList.remove("hide")}
+function sqRand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function sqMakeQuestion(){
+ const level=$("sqLevel").value,allow=$("sqRepeat").value==="yes",pool=sqNumbers;
+ let type=level==="basic"?0:level==="mixed"?sqRand(0,1):sqRand(0,3),a=pool[sqRand(0,pool.length-1)],b=pool[sqRand(0,pool.length-1)],q="",ans=0,explain="";
+ if(type===0){q=a+"² = ?";ans=a*a;explain=a+" × "+a+" = "+ans}
+ else if(type===1){let n=a*a;q="Which number has square "+n+"?";ans=a;explain=a+"² = "+n}
+ else if(type===2){if(a===b&&pool.length>1)b=pool[(pool.indexOf(a)+1)%pool.length];q=a+"² + "+b+"² = ?";ans=a*a+b*b;explain=a*a+" + "+b*b+" = "+ans}
+ else{if(a===b&&pool.length>1)b=pool[(pool.indexOf(a)+1)%pool.length];if(a<b)[a,b]=[b,a];q=a+"² − "+b+"² = ?";ans=a*a-b*b;explain="("+a+" + "+b+") × ("+a+" − "+b+") = "+ans}
+ const key=q+"|"+ans;
+ if(!allow&&sqSeen.has(key)&&sqSeen.size<Math.min(300,sqNumbers.length*4))return sqMakeQuestion();
+ sqSeen.add(key);
+ let opts=new Set([ans]);let span=Math.max(8,Math.ceil(Math.abs(ans)*.16)),tries=0;
+ while(opts.size<4&&tries++<100){let d=sqRand(1,span),v=ans+(Math.random()<.5?-d:d);if(v>=0&&v!==ans)opts.add(v)}
+ while(opts.size<4)opts.add(ans+opts.size+1);
+ return{q,ans,explain,opts:[...opts].sort(()=>Math.random()-.5)};
+}
+function sqStartQuiz(){
+ sqQuestionsDone=0;sqCorrect=0;sqAnswered=0;sqLocked=false;sqSeen=new Set();
+ $("sqLearnStage").classList.add("hide");$("sqQuizStage").classList.remove("hide");sqRenderQuestion();
+}
+function sqRenderQuestion(){
+ const total=Number($("sqQuestionCount").value)||20;
+ if(sqQuestionsDone>=total){sqFinish();return}
+ sqCurrent=sqMakeQuestion();sqLocked=false;
+ let typed=$("sqAnswerType").value==="typed";
+ $("sqQuizStage").innerHTML='<div class="panel"><div class="sqStageTop"><b>MIXED SQUARES MCQ</b><span class="muted">Question '+(sqQuestionsDone+1)+' / '+total+'</span></div><div class="sqProgress"><i style="width:'+(sqQuestionsDone/total*100)+'%"></i></div><div class="sqQuestion">'+sqCurrent.q+'</div>'+(typed?'<div class="sqTyped"><input id="sqTypedValue" type="number" placeholder="Type your answer"><button class="btn" onclick="sqSubmitTyped()">Submit</button></div>':'<div class="sqOptions">'+sqCurrent.opts.map((v,i)=>'<button onclick="sqChoose('+i+',this)">'+v.toLocaleString("en-IN")+'</button>').join("")+'</div>')+'<div class="sqFeedback" id="sqFeedback"></div><button id="sqNext" class="btn" style="width:100%" disabled onclick="sqNextQuestion()">Next question →</button><button class="btn alt" style="width:100%;margin-top:8px" onclick="sqBackSetup()">Exit practice</button></div>';
+ if(typed){$("sqTypedValue").addEventListener("keydown",e=>{if(e.key==="Enter")sqSubmitTyped()})}
+}
+function sqRecord(value,el){
+ if(sqLocked)return;sqLocked=true;const ok=Number(value)===sqCurrent.ans;if(ok)sqCorrect++;sqAnswered++;
+ if(el){document.querySelectorAll("#sqQuizStage .sqOptions button").forEach(btn=>{btn.disabled=true;if(Number(btn.textContent.replace(/,/g,""))===sqCurrent.ans)btn.classList.add("correct");else if(btn===el)btn.classList.add("wrong")})}
+ $("sqFeedback").textContent=ok?"Correct! ✓":"Correct answer: "+sqCurrent.ans.toLocaleString("en-IN")+" · "+sqCurrent.explain;
+ $("sqNext").disabled=false;$("sqNext").textContent=sqQuestionsDone+1>=(Number($("sqQuestionCount").value)||20)?"See result →":"Next question →";
+}
+function sqChoose(i,el){sqRecord(sqCurrent.opts[i],el)}
+function sqSubmitTyped(){const v=$("sqTypedValue").value.trim();if(v!=="")sqRecord(v,null)}
+function sqNextQuestion(){if(!sqLocked)return;sqQuestionsDone++;sqRenderQuestion()}
+function sqFinish(){
+ const total=Number($("sqQuestionCount").value)||20,pct=Math.round(sqCorrect/total*100);
+ $("sqQuizStage").innerHTML='<div class="panel sqResult"><div class="tag">LEARNING SESSION COMPLETE</div><h2>Square practice result</h2><strong>'+sqCorrect+' / '+total+'</strong><p>Accuracy: '+pct+'% · '+(total-sqCorrect)+' incorrect</p><button class="btn" onclick="sqBeginLearning()">Learn again from start</button><button class="btn alt" style="margin-top:9px;width:100%" onclick="sqBackSetup()">Change squares & settings</button></div>';
+}
+sqUpdatePreview();
 </script></body></html>
