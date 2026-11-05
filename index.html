@@ -261,7 +261,22 @@ function finishSession(){
  $("quizPanel").innerHTML='<div class="heading"><h2>Practice Result</h2><button class="btn alt" onclick="go(\'practice\')">Close</button></div><div class="panel"><div class="tag">SESSION COMPLETED</div><div class="question">'+netScore.toFixed(2)+' / '+questionLimit+'</div><div class="resultKpis"><div><b>'+pct+'%</b><small>Accuracy</small></div><div><b>'+sessionCorrect+'</b><small>Correct</small></div><div><b>'+wrong+'</b><small>Wrong</small></div><div><b>'+avgTime+'s</b><small>Avg. time/question</small></div><div><b>'+netScore.toFixed(2)+'</b><small>Net score</small></div><div><b>'+sessionReview.length+'</b><small>Reviewed</small></div></div><p class="muted" style="text-align:center">'+(pct>=80?'Excellent work!':pct>=50?'Good effort. Keep practising!':'Keep going. Every question makes you faster.')+'</p><h3>Question-by-question review</h3><div class="reviewWrap"><table class="reviewTable"><thead><tr><th>#</th><th>Question</th><th>Your answer</th><th>Correct answer</th><th>Result</th><th>Time</th></tr></thead><tbody>'+rows+'</tbody></table></div><div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn" onclick="showConfig()">Practice again</button><button class="btn alt" onclick="go(\'practice\');backToTopics()">Choose another topic</button></div></div>';
  $("quizPanel").classList.remove("hide");$("configPanel").classList.add("hide");$("practicePicker").classList.add("hide");
 }
-function submitTyped(){answer(Number($("typedAnswer").value),null)}
+let typedSubmitTimer=null;
+function submitTyped(){const field=$("typedAnswer");if(!field||field.disabled||field.value.trim()==="")return;answer(Number(field.value),null)}
+(function setupAutoTypedSubmit(){
+ const field=$("typedAnswer");if(!field)return;
+ field.addEventListener("input",()=>{
+  if(typedSubmitTimer)clearTimeout(typedSubmitTimer);
+  const value=field.value.trim();
+  if(value==="")return;
+  typedSubmitTimer=setTimeout(()=>{
+   if(!field.disabled&&field.value.trim()===value)submitTyped();
+  },850);
+ });
+ field.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){e.preventDefault();if(typedSubmitTimer)clearTimeout(typedSubmitTimer);submitTyped();}
+ });
+})();
 function startTimer(){if(timerHandle)clearInterval(timerHandle);$("timerDisplay").textContent="";const mode=$("timerMode").value;if(mode==="off")return;elapsedSeconds=0;const limit=mode==="count15"?15:mode==="count30"?30:mode==="count45"?45:0;$("timerDisplay").textContent=limit?"⏱ "+limit+"s":"⏱ 0s elapsed";timerHandle=setInterval(()=>{elapsedSeconds++;if(limit){timeLeft=limit-elapsedSeconds;$("timerDisplay").textContent="⏱ "+Math.max(0,timeLeft)+"s";if(timeLeft<=0){clearInterval(timerHandle);timerHandle=null;if(!locked){locked=true;sessionAttempted++;statsData.attempted++;sessionReview.push({q:activeQ.q,chosen:"Time expired",answer:String(activeQ.ans),correct:false,seconds:elapsedSeconds});saveNumoraMistake();$("feedback").textContent="Time up! Correct answer: "+activeQ.ans;localStorage.setItem("numoraTopicStats",JSON.stringify(statsData));drawStats();disableAnswers();if($("nextQuestionBtn"))$("nextQuestionBtn").disabled=false}}}else{$("timerDisplay").textContent="⏱ "+elapsedSeconds+"s elapsed"}},1000)}
 function disableAnswers(){document.querySelectorAll("#answers button").forEach(b=>b.disabled=true);$("typedAnswer").disabled=true}
 const divisibilityRules=[
