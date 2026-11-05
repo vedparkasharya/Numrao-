@@ -298,12 +298,13 @@ const topicLearningPath=[
 ];
 function tile(t,index=0){
 const symbols={squares:"x²",cubes:"x³",squareroot:"√x",cuberoot:"∛x",tables:"×",divisibility:"÷?",hcf:"H/L",addition:"+",subtraction:"−",multiplication:"×",division:"÷",fractions:"½",fractionconversion:"%",percentage:"%",algebra:"a²+b²",digitalsum:"Σ",unitdigit:"↗",number:"123",mentaltricks:"⚡",r_calendar:"📅",r_clock:"◷",r_direction:"N/E/S/W",r_analogy:"A:B",r_number_series:"1,2,3",r_letter_series:"A→Z"};
-const symbol=symbols[t.id]||t.icon;
-return '<button class="topic topicCard topicColor'+(index%12)+'" onclick="choose(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><span class="topicSymbol">'+symbol+'</span><b>'+t.name+'</b><small>Practice →</small><span class="topicOrb"></span></button>'
+const palette={squares:0,cubes:1,squareroot:2,cuberoot:3,tables:4,divisibility:5,hcf:6,addition:8,subtraction:9,multiplication:10,division:11};
+const color=palette[t.id]??(index%12),symbol=symbols[t.id]||t.icon;
+return '<button class="topic topicCard topicColor'+color+'" onclick="choose(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><span class="topicSymbol">'+symbol+'</span><b>'+t.name+'</b><small>Practice →</small><span class="topicOrb"></span></button>'
 }
 function groupedTopicHTML(noteMode){
 const used=new Set();
-const ordered=topicLearningPath.flatMap(g=>g.ids.map(id=>topics.find(t=>t.id===id)).filter(Boolean).filter(t=>{if(used.has(t.id))return false;used.add(t.id);return true}));
+const referenceOrder=["squares","cubes","squareroot","cuberoot","tables","divisibility","hcf","addition","subtraction","multiplication","division","mentaltricks"];\nconst ordered=referenceOrder.map(id=>topics.find(t=>t.id===id)).filter(Boolean);ordered.forEach(t=>used.add(t.id));topicLearningPath.flatMap(g=>g.ids.map(id=>topics.find(t=>t.id===id)).filter(Boolean)).forEach(t=>{if(!used.has(t.id)){used.add(t.id);ordered.push(t)}});
 topics.filter(t=>!used.has(t.id)).forEach(t=>ordered.push(t));
 return ordered.map((t,i)=>noteMode?'<button class="topic" onclick="openNotes(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b></button>':tile(t,i)).join("");
 }
