@@ -304,7 +304,8 @@ return '<button class="topic topicCard topicColor'+color+'" onclick="choose(\''+
 }
 function groupedTopicHTML(noteMode){
 const used=new Set();
-const referenceOrder=["squares","cubes","squareroot","cuberoot","tables","divisibility","hcf","addition","subtraction","multiplication","division","mentaltricks"];\nconst ordered=referenceOrder.map(id=>topics.find(t=>t.id===id)).filter(Boolean);ordered.forEach(t=>used.add(t.id));topicLearningPath.flatMap(g=>g.ids.map(id=>topics.find(t=>t.id===id)).filter(Boolean)).forEach(t=>{if(!used.has(t.id)){used.add(t.id);ordered.push(t)}});
+const referenceOrder=["squares","cubes","squareroot","cuberoot","tables","divisibility","hcf","addition","subtraction","multiplication","division","mentaltricks"];
+const ordered=referenceOrder.map(id=>topics.find(t=>t.id===id)).filter(Boolean);ordered.forEach(t=>used.add(t.id));topicLearningPath.flatMap(g=>g.ids.map(id=>topics.find(t=>t.id===id)).filter(Boolean)).forEach(t=>{if(!used.has(t.id)){used.add(t.id);ordered.push(t)}});
 topics.filter(t=>!used.has(t.id)).forEach(t=>ordered.push(t));
 return ordered.map((t,i)=>noteMode?'<button class="topic" onclick="openNotes(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b></button>':tile(t,i)).join("");
 }
