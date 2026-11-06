@@ -312,13 +312,13 @@ const used=new Set();
 const groups=topicLearningPath.map(group=>{
 const items=group.ids.map(id=>topics.find(t=>t.id===id)).filter(t=>t&&!used.has(t.id));
 items.forEach(t=>used.add(t.id));
-return {title:group.title.replace(/^\\d+\\s*[·.-]\\s*/, ""),level:group.level,hint:group.hint,items};
+return {title:group.title.replace(/^\d+\s*[·.-]\s*/, ""),level:group.level,hint:group.hint,items};
 }).filter(group=>group.items.length);
 const remaining=topics.filter(t=>!used.has(t.id));
 if(remaining.length)groups.push({title:"More Practice Topics",level:"ADDITIONAL",hint:"Other available calculation and reasoning topics",items:remaining});
 return groups.map(group=>{
 const cards=group.items.map((t,index)=>noteMode
-?'<button class="topic topicCard topicColor'+(index%12)+'" onclick="openNotes(\\''+t.id+'\\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>'
+?'<button class="topic topicCard topicColor'+(index%12)+'" onclick="openNotes(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>'
 :tile(t,index)).join("");
 return '<section class="topicGroup"><div class="topicGroupHead"><div><div class="topicLevel">'+group.level+'</div><h3>'+group.title+'</h3><p>'+group.hint+'</p></div><span class="topicCount">'+group.items.length+' topics</span></div><div class="grid">'+cards+'</div></section>';
 }).join("");
