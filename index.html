@@ -1500,4 +1500,67 @@ button.topic.topicCard .topicOrb{display:none!important}
  #configPanel.nativeConfig .choice{font-size:10px!important}
  #configPanel.nativeConfig .cfgOptions{grid-column:1/-1}
 }
+</style><style id="numoraLearnTwoColumnFix">
+/* Learn notes: compact two-column topic cards, never a vertical full-width stack */
+#learnTopics.grid{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-auto-rows:minmax(148px,auto)!important;
+ align-items:stretch!important;
+ align-content:start!important;
+ gap:12px!important;
+ width:100%!important;
+ min-width:0!important;
+ margin:0!important;
+ padding:0 0 18px!important;
+}
+#learnTopics.grid>button.topic.topicCard{
+ display:flex!important;
+ flex-direction:column!important;
+ justify-content:flex-end!important;
+ align-items:flex-start!important;
+ width:100%!important;
+ min-width:0!important;
+ min-height:148px!important;
+ height:148px!important;
+ max-height:148px!important;
+ box-sizing:border-box!important;
+ padding:14px!important;
+ overflow:hidden!important;
+ position:relative!important;
+}
+#learnTopics.grid>button.topic.topicCard .topicIcon{
+ position:absolute!important;
+ top:12px!important;
+ left:12px!important;
+ right:auto!important;
+ width:38px!important;
+ height:38px!important;
+ margin:0!important;
+ flex:0 0 38px!important;
+}
+#learnTopics.grid>button.topic.topicCard b{
+ display:block!important;
+ position:relative!important;
+ width:100%!important;
+ margin:0!important;
+ font-size:15px!important;
+ line-height:1.2!important;
+ overflow-wrap:anywhere!important;
+ word-break:normal!important;
+}
+#learnTopics.grid>button.topic.topicCard small{
+ display:block!important;
+ position:relative!important;
+ margin-top:5px!important;
+ font-size:12px!important;
+ line-height:1.2!important;
+ white-space:normal!important;
+}
+@media(max-width:360px){
+ #learnTopics.grid{gap:9px!important;grid-auto-rows:142px!important}
+ #learnTopics.grid>button.topic.topicCard{height:142px!important;min-height:142px!important;max-height:142px!important;padding:11px!important}
+ #learnTopics.grid>button.topic.topicCard b{font-size:13px!important}
+ #learnTopics.grid>button.topic.topicCard .topicIcon{top:10px!important;left:10px!important}
+}
 </style></body></html>
