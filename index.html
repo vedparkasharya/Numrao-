@@ -1705,7 +1705,7 @@ window.numoraRenderLearnTopics=function(query=""){
  const list=document.getElementById("learnTopics");if(!list)return;
  const q=String(query).trim().toLowerCase();
  const items=topics.filter(t=>!q||(t.name+" "+t.desc+" "+(t.notes||[]).join(" ")).toLowerCase().includes(q));
- list.innerHTML=items.map((t,i)=>'<button class="topic topicCard topicColor'+(i%12)+'" type="button" onclick="openTopicNotes(\\''+t.id+'\\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>').join("")||'<p class="muted">No matching topic found. Try another search.</p>';
+ list.innerHTML=items.map((t,i)=>'<button class="topic topicCard topicColor'+(i%12)+'" type="button" onclick="openTopicNotes(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>').join("")||'<p class="muted">No matching topic found. Try another search.</p>';
  list.classList.remove("hide");list.style.display="grid";
 };
 window.numoraOpenLearn=function(){
