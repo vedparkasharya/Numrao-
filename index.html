@@ -345,18 +345,23 @@ if(select)select.innerHTML=topics.map(t=>'<option value="'+t.id+'">'+t.name+'</o
 function setLearnMode(mode){const study=mode==="study";$("studyArea").classList.toggle("hide",!study);$("learnPracticeArea").classList.toggle("hide",study);$("studyMode").classList.toggle("active",study);$("practiceMode").classList.toggle("active",!study);}let selectedTopic="addition",rangeMode="random",difficulty="medium",questionLimit=10,sessionIndex=0,sessionCorrect=0,sessionAttempted=0,timerHandle=null,timeLeft=30,practiceMode="random",rememberNumber=1,rememberRepeatIndex=0,rememberStart=1,rememberEnd=5,rememberRepeats=5;let sessionReview=[],questionStartedAt=0,elapsedSeconds=0,sessionRepeatCount=1,repeatQueue=[];
 function choose(id){selectedTopic=id;$("topicSelect").value=id;go("practice");$("practicePicker").classList.add("hide");$("quizPanel").classList.add("hide");$("configPanel").classList.remove("hide");$("configTopic").textContent=topics.find(x=>x.id===id).name;const div=id==="divisibility";$("rangeMin").value=div?2:1;$("rangeMax").value=div?11:100;const labs=$("rangeInputs").querySelectorAll("label");labs[0].childNodes[0].textContent=div?"Minimum divisor":"Minimum value";labs[1].childNodes[0].textContent=div?"Maximum divisor":"Maximum value";$("randomMode").innerHTML=div?"🎲 Random Rules<small>Pick rules from 2 to 11</small>":"🎲 Random<small>Auto-adjusts to difficulty</small>";$("customMode").innerHTML=div?"🔢 Custom Rule Range<small>Example: 2 to 3 = both rules</small>":"🔢 Custom Range<small>Set custom low/high limits</small>";practiceMode="random"}
 function backToTopics(){$("configPanel").classList.add("hide");$("quizPanel").classList.add("hide");$("practicePicker").classList.remove("hide")}
-function setPracticeMode(m){practiceMode=m;$("randomPracticeMode").classList.toggle("active",m==="random");$("rememberPracticeMode").classList.toggle("active",m==="remember");$("repeatSettings").classList.toggle("hide",m!=="remember");$("randomMode").classList.toggle("active",m==="random");$("customMode").classList.toggle("active",m==="remember");if(m==="remember"){ $("rangeInputs").classList.add("hide");$("rangeMin").value=$("rememberMin").value;$("rangeMax").value=$("rememberMax").value;updateRepeatPreview() }else{setRangeMode("random")}}
-function updateRepeatPreview(){let a=Number($("rememberMin").value)||1,b=Number($("rememberMax").value)||5,r=Math.max(1,Number($("repeatCount").value)||1);$("repeatPreview").textContent="Each square repeats "+r+" times in order: "+a+"² → "+(a+1)+"² → … → "+b+"². Total questions: "+Math.max(0,b-a+1)*r}
-["rememberMin","rememberMax","repeatCount"].forEach(id=>$(id).addEventListener("input",updateRepeatPreview));
-function makeRememberQuestion(){let n=rememberNumber;return{q:n+"² = ?",ans:n*n}}
 function setRangeMode(m){rangeMode=m;$("randomMode").classList.toggle("active",m==="random");$("customMode").classList.toggle("active",m==="custom");$("rangeInputs").classList.toggle("hide",m!=="custom")}
 function setDifficulty(d){difficulty=d;document.querySelectorAll("[data-diff]").forEach(b=>b.classList.toggle("active",b.dataset.diff===d))}
 function setCount(n){questionLimit=n;document.querySelectorAll("[data-count]").forEach(b=>b.classList.toggle("active",Number(b.dataset.count)===n))}
 let quizPanelMarkup=$("quizPanel").innerHTML;
 function restoreQuizPanel(){if(!$("quizPanel").querySelector("#question"))$("quizPanel").innerHTML=quizPanelMarkup}
 function showConfig(){if(timerHandle)clearInterval(timerHandle);restoreQuizPanel();$("quizPanel").classList.add("hide");$("configPanel").classList.remove("hide")}
-function startSession(){restoreQuizPanel();sessionReview=[];questionStartedAt=Date.now();if(rangeMode==="custom"){let lo=Number($("rangeMin").value),hi=Number($("rangeMax").value);if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){alert("Please enter a valid range. Maximum must be greater than minimum.");return}}
-sessionIndex=0;sessionCorrect=0;sessionAttempted=0;qnum=0;repeatQueue=[];sessionRepeatCount=Math.max(1,Number($("globalRepeatCount")?.value||1));if(selectedTopic==="squares"&&practiceMode==="remember"){rememberStart=Number($("rememberMin").value);rememberEnd=Number($("rememberMax").value);rememberRepeats=Math.max(1,Number($("repeatCount").value)||1);if(rememberStart<1||rememberEnd<rememberStart||rememberEnd-rememberStart>999){alert("Please enter a valid square range.");return}rememberNumber=rememberStart;rememberRepeatIndex=0;questionLimit=(rememberEnd-rememberStart+1)*rememberRepeats*sessionRepeatCount}else{questionLimit=Number(document.querySelector("[data-count].active")?.dataset.count||10)*sessionRepeatCount}$("configPanel").classList.add("hide");$("quizPanel").classList.remove("hide");nextQ()}
+function startSession(){
+ restoreQuizPanel();sessionReview=[];questionStartedAt=Date.now();
+ if(rangeMode==="custom"){
+  const lo=Number($("rangeMin").value),hi=Number($("rangeMax").value);
+  if(!Number.isFinite(lo)||!Number.isFinite(hi)||!Number.isInteger(lo)||!Number.isInteger(hi)||lo<1||hi<lo){alert("Enter a valid custom range. Minimum must be at least 1 and maximum must be equal to or greater than minimum.");return}
+ }
+ sessionIndex=0;sessionCorrect=0;sessionAttempted=0;qnum=0;repeatQueue=[];
+ sessionRepeatCount=Math.max(1,Number($("globalRepeatCount")?.value||1));
+ questionLimit=Number(document.querySelector("[data-count].active")?.dataset.count||10)*sessionRepeatCount;
+ $("configPanel").classList.add("hide");$("quizPanel").classList.remove("hide");nextQ();
+}
 function finishSession(){
  if(timerHandle){clearInterval(timerHandle);timerHandle=null}
  const pct=sessionAttempted?Math.round(sessionCorrect/sessionAttempted*100):0;
@@ -533,10 +538,10 @@ case"subtraction":a=rand(low,high);b=rand(1,a);ans=a-b;q=a+" − "+b+" = ?";brea
 case"fractions":{let d=rand(2,12),n=rand(1,d-1),whole=rand(2,Math.max(3,Math.floor(high/d)));ans=whole*n;q=n+"/"+d+" of "+(whole*d)+" = ?";break;}
 case"fractionconversion":{let d=rand(2,30),mixed=Math.random()<.35;let options=fractionConversionOptions(d,mixed);q=(mixed?"1 1/"+d:"1/"+d)+" = ?%";return {q,ans:options.findIndex(x=>x.correct),options:options.map(x=>x.value)};}
 case"digitalsum":a=rand(1000,9999999);ans=String(a).split("").reduce((s,d)=>s+Number(d),0);q="Find the digital sum of "+a+".";break;
-case"multiplication":a=rand(Math.max(2,Math.floor(low/10)),Math.max(3,Math.floor(high/10)));b=rand(Math.max(2,Math.floor(low/10)),Math.max(3,Math.floor(high/10)));ans=a*b;q=a+" × "+b+" = ?";break;
+case"multiplication":{const fmin=rangeMode==="custom"?low:Math.max(2,Math.floor(low/10)),fmax=rangeMode==="custom"?high:Math.max(3,Math.floor(high/10));a=rand(Math.max(1,fmin),Math.max(Math.max(1,fmin),fmax));b=rand(Math.max(1,fmin),Math.max(Math.max(1,fmin),fmax));ans=a*b;q=a+" × "+b+" = ?";break;}
 case"mentaltricks":{let mode=rand(1,6);if(mode===1){a=rand(11,99);ans=a*11;q="Use the ×11 trick: "+a+" × 11 = ?"}else if(mode===2){a=rand(10,200);ans=a*5;q="Use ×5 = ×10 ÷ 2: "+a+" × 5 = ?"}else if(mode===3){a=rand(4,100)*4;ans=a*25;q="Use ×25 = ×100 ÷ 4: "+a+" × 25 = ?"}else if(mode===4){a=rand(1,99)*10+5;ans=a*a;q="Quick square: "+a+"² = ?"}else if(mode===5){a=rand(91,99);b=rand(91,99);ans=a*b;q="Near 100 shortcut: "+a+" × "+b+" = ?"}else{a=rand(20,999);ans=999*a;q="Compensation trick: "+a+" × 999 = ?"}break;}
-case"division":b=[2,3,4,5,6,8,9,10,12,15,16,25][rand(0,11)];ans=rand(Math.max(2,Math.floor(low/5)),Math.max(3,Math.floor(high/5)));q=(b*ans)+" ÷ "+b+" = ?";break;
-case"squares":a=rand(Math.max(2,Math.floor(Math.sqrt(low))),Math.max(3,Math.floor(Math.sqrt(high))));ans=a*a;q=a+"² = ?";break;
+case"division":{b=[2,3,4,5,6,8,9,10,12,15,16,25][rand(0,11)];const qmin=rangeMode==="custom"?low:Math.max(2,Math.floor(low/5)),qmax=rangeMode==="custom"?high:Math.max(3,Math.floor(high/5));ans=rand(Math.max(1,qmin),Math.max(Math.max(1,qmin),qmax));q=(b*ans)+" ÷ "+b+" = ?";break;}
+case"squares":{const minBase=rangeMode==="custom"?low:Math.max(2,Math.floor(Math.sqrt(low))),maxBase=rangeMode==="custom"?high:Math.max(3,Math.floor(Math.sqrt(high)));a=rand(Math.max(1,minBase),Math.max(Math.max(1,minBase),maxBase));ans=a*a;q=a+"² = ?";break;}
 case"cubes":a=rand(Math.max(2,Math.floor(Math.cbrt(low))),Math.max(3,Math.floor(Math.cbrt(high))));ans=a*a*a;q=a+"³ = ?";break;
 case"squareroot":a=rand(2,30);ans=a;q="√"+(a*a)+" = ?";break;
 case"cuberoot":a=rand(2,15);ans=a;q="∛"+(a*a*a)+" = ?";break;
@@ -659,36 +664,47 @@ function dismissNumoraSplash(){const splash=document.getElementById("numoraSplas
 /* Square Learning Lab: one-time learning display followed by mixed MCQ practice. */
 let sqNumbers=[],sqQuestionsDone=0,sqCorrect=0,sqCurrent=null,sqLocked=false,sqSeen=new Set(),sqAnswered=0;
 function sqGetSet(){
- const start=Math.max(1,Math.min(999,Number($("sqStart").value)||1)),amount=$("sqAmount").value;
- let end=amount==="custom"?Math.max(start,Math.min(999,Number($("sqEnd").value)||start)):Math.min(999,start+Number(amount)-1);
+ const rawStart=Number($("sqStart").value),start=Math.floor(rawStart),amount=$("sqAmount").value;
+ if(!Number.isFinite(rawStart)||start<1||start>999)throw new Error("Starting number must be between 1 and 999.");
+ let end;
+ if(amount==="custom"){
+  const rawEnd=Number($("sqEnd").value);end=Math.floor(rawEnd);
+  if(!Number.isFinite(rawEnd)||end<start||end>999)throw new Error("Ending number must be between the starting number and 999.");
+ }else end=Math.min(999,start+Number(amount)-1);
  return Array.from({length:end-start+1},(_,i)=>start+i);
 }
 function sqUpdatePreview(){
- const nums=sqGetSet();$("sqSetPreview").textContent=nums.length+" squares selected: "+nums[0]+"² to "+nums[nums.length-1]+"² · "+nums.length+" learning cards.";
+ try{const nums=sqGetSet();$("sqSetPreview").textContent=nums.length+" squares selected: "+nums[0]+"² to "+nums[nums.length-1]+"² · "+nums.length+" learning cards.";$("sqSetPreview").classList.remove("error")}
+ catch(e){$("sqSetPreview").textContent=e.message;$("sqSetPreview").classList.add("error")}
 }
 $("sqAmount").addEventListener("change",()=>{$("sqEndWrap").classList.toggle("hide",$("sqAmount").value!=="custom");sqUpdatePreview()});
 $("sqStart").addEventListener("input",sqUpdatePreview);$("sqEnd").addEventListener("input",sqUpdatePreview);
 function sqBeginLearning(){
- sqNumbers=sqGetSet();if(!sqNumbers.length||sqNumbers.length>999){alert("Please choose a valid square range.");return}
+ try{sqNumbers=sqGetSet()}catch(e){alert(e.message);return}
+ if(!sqNumbers.length||sqNumbers.length>999){alert("Please choose a valid square range.");return}
  const group=$("sqGroup").value==="all"?sqNumbers.length:Number($("sqGroup").value);
- let html='<div class="panel"><div class="sqStageTop"><div><div class="tag">LEARNING PHASE · ONCE</div><h2 style="margin:4px 0">Remember these squares</h2></div><span class="pill">'+sqNumbers.length+' cards</span></div><p class="muted">Study the number and its square. This learning list appears once before your test.</p>';
- for(let i=0;i<sqNumbers.length;i+=group){html+='<div class="sqLearnGroup"><h3>Group '+(Math.floor(i/group)+1)+'</h3><div class="sqLearnCards">'+sqNumbers.slice(i,i+group).map(n=>'<div class="sqLearnCard"><b>'+n+'²</b><span>= '+(n*n).toLocaleString("en-IN")+'</span></div>').join("")+'</div></div>'}
- html+='<button class="btn startBtn" onclick="sqStartQuiz()">I have learned these → Start mixed MCQ</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="sqBackSetup()">Change selection</button></div>';
+ let html='<div class="panel"><div class="sqStageTop"><div><div class="tag">LEARNING PHASE · ACTIVE RECALL</div><h2 style="margin:4px 0">Remember these squares & multiples</h2></div><span class="pill">'+sqNumbers.length+' numbers</span></div><p class="muted">Recall the square and its 2×, 3× and 4× facts. Reveal each answer before moving on.</p>';
+ for(let i=0;i<sqNumbers.length;i+=group){html+='<div class="sqLearnGroup"><h3>Group '+(Math.floor(i/group)+1)+'</h3><div class="sqLearnCards">'+sqNumbers.slice(i,i+group).map(n=>'<div class="sqLearnCard"><b>'+n+'²</b><span>= '+(n*n).toLocaleString("en-IN")+'</span><small style="display:block;margin-top:6px">'+n+'×2='+(n*2)+' · '+n+'×3='+(n*3)+' · '+n+'×4='+(n*4)+'</small></div>').join("")+'</div></div>'}
+ html+='<button class="btn startBtn" onclick="sqStartQuiz()">I have learned these → Start mixed recall test</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="sqBackSetup()">Change selection</button></div>';
  $("squareSetup").classList.add("hide");$("sqQuizStage").classList.add("hide");$("sqLearnStage").innerHTML=html;$("sqLearnStage").classList.remove("hide");window.scrollTo({top:$("squareLearningLab").offsetTop-12,behavior:"smooth"});
 }
 function sqBackSetup(){$("sqLearnStage").classList.add("hide");$("sqQuizStage").classList.add("hide");$("squareSetup").classList.remove("hide")}
 function sqRand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function sqMakeQuestion(){
  const level=$("sqLevel").value,allow=$("sqRepeat").value==="yes",pool=sqNumbers;
- let type=level==="basic"?0:level==="mixed"?sqRand(0,1):sqRand(0,3),a=pool[sqRand(0,pool.length-1)],b=pool[sqRand(0,pool.length-1)],q="",ans=0,explain="";
+ const type=level==="basic"?0:level==="mixed"?sqRand(0,1):sqRand(0,6);
+ let a=pool[sqRand(0,pool.length-1)],b=pool[sqRand(0,pool.length-1)],q="",ans=0,explain="";
  if(type===0){q=a+"² = ?";ans=a*a;explain=a+" × "+a+" = "+ans}
- else if(type===1){let n=a*a;q="Which number has square "+n+"?";ans=a;explain=a+"² = "+n}
- else if(type===2){if(a===b&&pool.length>1)b=pool[(pool.indexOf(a)+1)%pool.length];q=a+"² + "+b+"² = ?";ans=a*a+b*b;explain=a*a+" + "+b*b+" = "+ans}
+ else if(type===1){q="Which number has square "+(a*a)+"?";ans=a;explain=a+"² = "+(a*a)}
+ else if(type>=2&&type<=4){const multiplier=type;q=a+" × "+multiplier+" = ?";ans=a*multiplier;explain=a+" multiplied by "+multiplier+" = "+ans}
+ else if(type===5){if(a===b&&pool.length>1)b=pool[(pool.indexOf(a)+1)%pool.length];q=a+"² + "+b+"² = ?";ans=a*a+b*b;explain=a*a+" + "+b*b+" = "+ans}
  else{if(a===b&&pool.length>1)b=pool[(pool.indexOf(a)+1)%pool.length];if(a<b)[a,b]=[b,a];q=a+"² − "+b+"² = ?";ans=a*a-b*b;explain="("+a+" + "+b+") × ("+a+" − "+b+") = "+ans}
  const key=q+"|"+ans;
- if(!allow&&sqSeen.has(key)&&sqSeen.size<Math.min(300,sqNumbers.length*4))return sqMakeQuestion();
+ if(!allow&&sqSeen.has(key)&&sqSeen.size<Math.min(300,sqNumbers.length*7)){
+  for(let attempt=0;attempt<12;attempt++){const candidate=sqNumbers[sqRand(0,sqNumbers.length-1)];if(candidate!==a){a=candidate;return sqMakeQuestion()}}
+ }
  sqSeen.add(key);
- let opts=new Set([ans]);let span=Math.max(8,Math.ceil(Math.abs(ans)*.16)),tries=0;
+ let opts=new Set([ans]),span=Math.max(8,Math.ceil(Math.abs(ans)*.16)),tries=0;
  while(opts.size<4&&tries++<100){let d=sqRand(1,span),v=ans+(Math.random()<.5?-d:d);if(v>=0&&v!==ans)opts.add(v)}
  while(opts.size<4)opts.add(ans+opts.size+1);
  return{q,ans,explain,opts:[...opts].sort(()=>Math.random()-.5)};
@@ -721,14 +737,14 @@ function sqFinish(){
 sqUpdatePreview();
 
 /* Universal Remember Mode across all topics */
-let topicMemoryCards=[],topicMemoryQuestions=[],topicMemoryIndex=0,topicMemoryScore=0,topicMemoryRandom=false,topicMemoryLocked=false,topicMemoryCurrent=null;
+let topicMemoryCards=[],topicMemoryQuestions=[],topicMemoryIndex=0,topicMemoryScore=0,topicMemoryMissed=[],topicMemoryRandom=false,topicMemoryLocked=false,topicMemoryCurrent=null;
 function memShuffle(a){let x=a.slice();for(let i=x.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
 function memEscape(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function buildTopicMemory(id){
  const t=topics.find(x=>x.id===id);let cards=(t?.notes||[]).filter(Boolean).map((v,i)=>({front:"Key fact / rule "+(i+1),back:v}));
  const add=(front,back)=>cards.push({front,back});
  if(id==="tables")for(let n=2;n<=25;n++)add("Multiplication table · "+n,Array.from({length:10},(_,i)=>(i+1)+"×"+n+"="+((i+1)*n)).join(" · "));
- if(id==="squares")for(let n=1;n<=50;n++)add(n+"²",(n*n).toLocaleString("en-IN"));
+ if(id==="squares")for(let n=1;n<=50;n++){add(n+"²",(n*n).toLocaleString("en-IN"));add(n+" × 2",(n*2).toLocaleString("en-IN"));add(n+" × 3",(n*3).toLocaleString("en-IN"));add(n+" × 4",(n*4).toLocaleString("en-IN"));}
  if(id==="cubes")for(let n=1;n<=30;n++)add(n+"³",(n*n*n).toLocaleString("en-IN"));
  if(id==="squareroot")for(let n=1;n<=30;n++)add("√"+(n*n),String(n));
  if(id==="cuberoot")for(let n=1;n<=20;n++)add("∛"+(n*n*n),String(n));
@@ -1032,14 +1048,14 @@ function startTopicRemember(random=false){
  html+='<button class="btn startBtn" onclick="startTopicMemoryQuiz()">I have revised these → Start mixed MCQ</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="showConfig()">Back to settings</button></div>';
  $("quizPanel").innerHTML=html;$("configPanel").classList.add("hide");$("practicePicker").classList.add("hide");$("quizPanel").classList.remove("hide");window.scrollTo({top:0,behavior:"smooth"});
 }
-function startTopicMemoryQuiz(){topicMemoryQuestions=topicMemoryRandom?memShuffle(topicMemoryCards):topicMemoryCards.slice();topicMemoryIndex=0;topicMemoryScore=0;topicMemoryRender()}
+function startTopicMemoryQuiz(){topicMemoryQuestions=topicMemoryRandom?memShuffle(topicMemoryCards):topicMemoryCards.slice();topicMemoryIndex=0;topicMemoryScore=0;topicMemoryMissed=[];topicMemoryRender()}
 function topicMemoryRender(){
  if(topicMemoryIndex>=topicMemoryQuestions.length){topicMemoryFinish();return}
- const item=topicMemoryQuestions[topicMemoryIndex],distractors=memShuffle(topicMemoryCards.filter(x=>x.back!==item.back)).slice(0,3),opts=memShuffle([item,...distractors]);
- topicMemoryCurrent={item,opts};topicMemoryLocked=false;
- $("quizPanel").innerHTML='<div class="panel"><div class="sqStageTop"><b>REMEMBER MODE · MIXED MCQ</b><span class="muted">'+(topicMemoryIndex+1)+' / '+topicMemoryQuestions.length+'</span></div><div class="sqProgress"><i style="width:'+(topicMemoryIndex/topicMemoryQuestions.length*100)+'%"></i></div><div class="sqQuestion" style="font-size:21px">'+memEscape(item.front)+'</div><div class="sqOptions">'+opts.map((o,i)=>'<button onclick="topicMemoryAnswer('+i+',this)">'+memEscape(o.back)+'</button>').join("")+'</div><div class="sqFeedback" id="topicMemoryFeedback"></div><button id="topicMemoryNext" class="btn" style="width:100%" disabled onclick="topicMemoryNext()">Next →</button><button class="btn alt" style="width:100%;margin-top:8px" onclick="showConfig()">Exit Remember Mode</button></div>';
+ const item=topicMemoryQuestions[topicMemoryIndex];topicMemoryCurrent={item};topicMemoryLocked=false;
+ $("quizPanel").innerHTML='<div class="panel"><div class="sqStageTop"><b>REMEMBER MODE · ACTIVE RECALL</b><span class="muted">'+(topicMemoryIndex+1)+' / '+topicMemoryQuestions.length+'</span></div><div class="sqProgress"><i style="width:'+(topicMemoryIndex/topicMemoryQuestions.length*100)+'%"></i></div><div class="sqQuestion" style="font-size:21px">'+memEscape(item.front)+'</div><p class="muted">Answer in your mind, then reveal the correct fact.</p><div id="topicMemoryAnswer" class="sqFeedback hide">'+memEscape(item.back)+'</div><button id="topicMemoryReveal" class="btn" style="width:100%" onclick="topicMemoryReveal()">Show answer</button><div id="topicMemoryRating" class="hide"><p class="muted">Did you remember it?</p><button class="btn" style="width:100%" onclick="topicMemoryMark(true)">✓ Remembered</button><button class="btn alt" style="width:100%;margin-top:8px" onclick="topicMemoryMark(false)">↻ Need revision</button></div><button class="btn alt" style="width:100%;margin-top:10px" onclick="showConfig()">Exit Remember Mode</button></div>';
 }
-function topicMemoryAnswer(i,el){if(topicMemoryLocked)return;topicMemoryLocked=true;const c=topicMemoryCurrent,ok=c.opts[i].back===c.item.back;if(ok)topicMemoryScore++;document.querySelectorAll("#quizPanel .sqOptions button").forEach((b,k)=>{b.disabled=true;if(c.opts[k].back===c.item.back)b.classList.add("correct");else if(k===i)b.classList.add("wrong")});$("topicMemoryFeedback").textContent=ok?"Correct! ✓":"Correct answer: "+c.item.back;$("topicMemoryNext").disabled=false;$("topicMemoryNext").textContent=topicMemoryIndex===topicMemoryQuestions.length-1?"See result →":"Next →"}
-function topicMemoryNext(){if(!topicMemoryLocked)return;topicMemoryIndex++;topicMemoryRender()}
-function topicMemoryFinish(){const total=topicMemoryQuestions.length,pct=Math.round(topicMemoryScore/total*100);$("quizPanel").innerHTML='<div class="panel sqResult"><div class="tag">REMEMBER SESSION COMPLETE</div><h2>Revision result</h2><strong>'+topicMemoryScore+' / '+total+'</strong><p>Accuracy: '+pct+'% · '+(total-topicMemoryScore)+' missed</p><button class="btn" onclick="startTopicRemember(topicMemoryRandom)">Revise and test again</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="showConfig()">Back to topic settings</button></div>'}
+function topicMemoryReveal(){if(topicMemoryLocked)return;$("topicMemoryAnswer").classList.remove("hide");$("topicMemoryReveal").classList.add("hide");$("topicMemoryRating").classList.remove("hide");topicMemoryLocked=true}
+function topicMemoryMark(remembered){if(!topicMemoryLocked)return;if(remembered)topicMemoryScore++;else topicMemoryMissed.push(topicMemoryCurrent.item);topicMemoryIndex++;topicMemoryLocked=false;topicMemoryRender()}
+function topicMemoryNext(){topicMemoryIndex++;topicMemoryRender()}
+function topicMemoryFinish(){const total=topicMemoryQuestions.length,missed=topicMemoryMissed.length,pct=Math.round(topicMemoryScore/Math.max(1,total)*100);$("quizPanel").innerHTML='<div class="panel sqResult"><div class="tag">REMEMBER SESSION COMPLETE</div><h2>Revision result</h2><strong>'+topicMemoryScore+' / '+total+'</strong><p>Remembered: '+topicMemoryScore+' · Need revision: '+missed+' · Accuracy: '+pct+'%</p>'+(missed?'<h3>Revise these again</h3><div class="sqLearnCards">'+topicMemoryMissed.map(x=>'<div class="sqLearnCard"><b>'+memEscape(x.front)+'</b><span>'+memEscape(x.back)+'</span></div>').join("")+'</div>':'<p>Excellent! All facts remembered.</p>')+'<button class="btn" onclick="startTopicRemember(topicMemoryRandom)">Revise and test again</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="showConfig()">Back to topic settings</button></div>'}
 </script></body></html>
