@@ -1702,34 +1702,34 @@ button.topic.topicCard .topicOrb{display:none!important}
 #studyArea.learnDetailMode>#notes .lessonSection:last-child{margin-bottom:0!important}
 #studyArea.learnDetailMode>#notes .lessonCard .btn{width:100%!important;margin-top:14px!important}
 </style><script id="numoraLearnNavigationRepair">
-window.numoraRenderLearnTopics=function(query=""){
- const list=document.getElementById("learnTopics");if(!list)return;
- const q=String(query).trim().toLowerCase();
- const items=topics.filter(t=>!q||(t.name+" "+t.desc+" "+(t.notes||[]).join(" ")).toLowerCase().includes(q));
- list.innerHTML=items.map((t,i)=>'<button class="topic topicCard topicColor'+(i%12)+'" type="button" onclick="openTopicNotes(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>').join("")||'<p class="muted">No matching topic found. Try another search.</p>';
+(function(){
+const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function render(q=""){
+ const list=$("learnTopics");if(!list||!Array.isArray(topics))return;
+ q=String(q).trim().toLowerCase();
+ const found=topics.filter(t=>[t.name,t.desc,...(t.notes||[])].join(" ").toLowerCase().includes(q));
+ list.innerHTML=found.length?found.map((t,i)=>'<button class="topic topicCard topicColor'+(i%12)+'" type="button" data-learn-topic="'+esc(t.id)+'"><span class="topicIcon">'+esc(t.icon)+'</span><b>'+esc(t.name)+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>').join(""):'<p class="muted">No matching topic found. Try another search.</p>';
  list.classList.remove("hide");list.style.display="grid";
-};
-window.numoraOpenLearn=function(){
- try{
-  if(typeof go==="function")go("learn");
-  const page=document.getElementById("learn");
-  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p===page));
-  document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav==="learn"));
-  if(typeof setLearnMode==="function")setLearnMode("study");
-  const area=document.getElementById("studyArea");if(area)area.classList.remove("hide","learnDetailMode");
-  const notes=document.getElementById("notes");if(notes)notes.innerHTML="";
-  const search=document.getElementById("search");if(search){search.classList.remove("hide");search.value="";}
-  window.numoraRenderLearnTopics("");
-  window.scrollTo(0,0);
- }catch(err){console.error("Numora Learn navigation:",err);}
-};
-document.addEventListener("click",function(e){
- const b=e.target.closest('[data-nav="learn"]');
- if(!b)return;
- e.preventDefault();
- e.stopImmediatePropagation();
- window.numoraOpenLearn();
+}
+function show(mode="study"){
+ const page=$("learn");document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p===page));
+ document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav==="learn"));
+ const study=mode!=="practice";$("studyArea").classList.toggle("hide",!study);$("learnPracticeArea").classList.toggle("hide",study);
+ $("studyMode").classList.toggle("active",study);$("practiceMode").classList.toggle("active",!study);
+ if(study){$("studyArea").classList.remove("learnDetailMode");$("notes").innerHTML="";$("search").classList.remove("hide");$("search").value="";render("");}
+ else if(!$("learnPracticeTopics").children.length&&typeof groupedTopicHTML==="function")$("learnPracticeTopics").innerHTML=groupedTopicHTML(false);
+ window.scrollTo(0,0);
+}
+window.numoraRenderLearnTopics=render;window.numoraOpenLearn=()=>show("study");window.setLearnMode=show;
+document.addEventListener("click",e=>{
+ let x=e.target.closest('[data-nav="learn"]');if(x){e.preventDefault();e.stopImmediatePropagation();show("study");return;}
+ if(e.target.closest("#studyMode")){e.preventDefault();show("study");return;}
+ if(e.target.closest("#practiceMode")){e.preventDefault();show("practice");return;}
+ x=e.target.closest("[data-learn-topic]");if(x){e.preventDefault();if(typeof openTopicNotes==="function")openTopicNotes(x.dataset.learnTopic);}
 },true);
+$("search").addEventListener("input",e=>render(e.target.value));
+window.addEventListener("DOMContentLoaded",()=>render());render();
+})();
 </script><style id="numoraHomeScrollAndLearnFix">
 #home.page.active{
  height:auto!important;min-height:calc(100dvh - 160px)!important;
