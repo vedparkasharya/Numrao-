@@ -1474,6 +1474,7 @@ button.topic.topicCard .topicOrb{display:none!important}
   practice.classList.add("nativeConfigPage");
   const config=document.getElementById("configPanel");
   config.classList.add("nativeConfig");
+  config.querySelectorAll(".configBlock").forEach((el,i)=>el.classList.add(["cfgRange","cfgRemember","cfgDifficulty","cfgRepeat","cfgCount","cfgOptions"][i]||"cfgExtra"));
   document.getElementById("practicePicker").classList.add("hide");
   const h=config.querySelector(".heading");
   if(h){h.innerHTML='<button class="hubBack" type="button" id="configBack">‹</button><div class="hubHeadingCopy"><span class="hubEyebrow">PRACTICE SETUP</span><h2>Configure session</h2><p>Choose how you want to practise</p></div>';document.getElementById("configBack").onclick=()=>window.backToTopics()}
