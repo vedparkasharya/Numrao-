@@ -677,7 +677,7 @@ function openNotes(id){
  window.scrollTo(0,0);
 }
 window.openTopicNotes=function(id){go("learn");setLearnMode("study");openNotes(id)};window.$=$;
-$("search").addEventListener("input",e=>{const q=e.target.value.toLowerCase().trim();$("learnTopics").innerHTML=topics.filter(t=>(t.name+" "+t.desc+" "+(t.notes||[]).join(" ")).toLowerCase().includes(q)).map(t=>'<button class="topic" onclick="openTopicNotes(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b><small>Open lesson & examples →</small></button>').join("")||'<p class="muted">No lesson found. Try another keyword.</p>'});
+$("search").addEventListener("input",e=>window.numoraRenderLearnTopics(e.target.value));
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}function dr(n){n=Math.abs(n);return n===0?0:1+(n-1)%9}function unit(a,n){const c={0:[0],1:[1],2:[2,4,8,6],3:[3,9,7,1],4:[4,6],5:[5],6:[6],7:[7,9,3,1],8:[8,4,2,6],9:[9,1]}[a%10];return c[(n-1)%c.length]}
 
 function genReasoning(id){
@@ -1701,6 +1701,13 @@ button.topic.topicCard .topicOrb{display:none!important}
 #studyArea.learnDetailMode>#notes .lessonSection:last-child{margin-bottom:0!important}
 #studyArea.learnDetailMode>#notes .lessonCard .btn{width:100%!important;margin-top:14px!important}
 </style></style><script id="numoraLearnNavigationRepair">
+window.numoraRenderLearnTopics=function(query=""){
+ const list=document.getElementById("learnTopics");if(!list)return;
+ const q=String(query).trim().toLowerCase();
+ const items=topics.filter(t=>!q||(t.name+" "+t.desc+" "+(t.notes||[]).join(" ")).toLowerCase().includes(q));
+ list.innerHTML=items.map((t,i)=>'<button class="topic topicCard topicColor'+(i%12)+'" type="button" onclick="openTopicNotes(\\''+t.id+'\\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>').join("")||'<p class="muted">No matching topic found. Try another search.</p>';
+ list.classList.remove("hide");list.style.display="grid";
+};
 window.numoraOpenLearn=function(){
  try{
   if(typeof go==="function")go("learn");
@@ -1709,23 +1716,17 @@ window.numoraOpenLearn=function(){
   document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav==="learn"));
   if(typeof setLearnMode==="function")setLearnMode("study");
   const area=document.getElementById("studyArea");if(area)area.classList.remove("hide","learnDetailMode");
-  const list=document.getElementById("learnTopics");
-  if(list){
-   list.classList.remove("hide");
-   if(!list.querySelector("button.topic")){
-    list.innerHTML=topics.map((t,i)=>'<button class="topic topicCard topicColor'+(i%12)+'" type="button" onclick="openTopicNotes(\\''+t.id+'\\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small></button>').join("");
-   }
-   list.style.display="grid";
-  }
-  const search=document.getElementById("search");if(search)search.classList.remove("hide");
   const notes=document.getElementById("notes");if(notes)notes.innerHTML="";
+  const search=document.getElementById("search");if(search){search.classList.remove("hide");search.value="";}
+  window.numoraRenderLearnTopics("");
   window.scrollTo(0,0);
- }catch(err){console.error("Numora Learn screen failed:",err);alert("Learn screen load error. Please refresh the app.");}
+ }catch(err){console.error("Numora Learn navigation:",err);}
 };
 document.addEventListener("click",function(e){
  const b=e.target.closest('[data-nav="learn"]');
  if(!b)return;
  e.preventDefault();
+ e.stopImmediatePropagation();
  window.numoraOpenLearn();
 },true);
 </script><style id="numoraHomeScrollAndLearnFix">
@@ -1753,5 +1754,5 @@ document.addEventListener("click",function(e){
 #learn.page.active #studyArea{display:block!important;visibility:visible!important}
 #learn.page.active #learnTopics{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-content:start!important;min-height:180px!important;visibility:visible!important}
 #learn.page.active #learnTopics>button{display:flex!important;visibility:visible!important;opacity:1!important}
-#learn.page.active #learnTopics.hide{display:grid!important}
+#learn.page.active #learnTopics.hide{display:none!important}
 </style></body></html>
