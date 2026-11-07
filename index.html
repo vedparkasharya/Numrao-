@@ -652,19 +652,27 @@ function lessonReferenceTable(id){
  }
  return "";
 }
+function closeLearnLesson(){
+ const area=$("studyArea");if(area)area.classList.remove("learnDetailMode");
+ const notes=$("notes");if(notes)notes.innerHTML="";
+ const list=$("learnTopics");if(list)list.classList.remove("hide");
+ const search=$("search");if(search)search.classList.remove("hide");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
 function openNotes(id){
  const t=topics.find(x=>x.id===id);if(!t)return;
  const d=lessonBank[id]||{concept:"Understand the rule, identify the pattern and practise it with timed questions.",formula:"Use the rule shown in the topic notes.",steps:t.notes||[],example:t.notes&&t.notes[0]||"Apply the rule step by step.",practice:"Try one question from this topic."};
  const list=(arr)=>"<ul>"+arr.map(x=>"<li>"+x+"</li>").join("")+"</ul>";
- $("notes").innerHTML='<div class="lessonTop"><div><div class="tag">NUMORA · LEARN & STUDY</div><h2>'+t.icon+' '+t.name+'</h2><p>'+t.desc+'</p></div><button class="btn alt" onclick="document.getElementById(&quot;notes&quot;).innerHTML=&quot;&quot;">Close</button></div>'+
+ $("studyArea").classList.add("learnDetailMode");
+ $("notes").innerHTML='<div class="lessonTop"><button class="btn alt" onclick="closeLearnLesson()">← All topics</button><div><div class="tag">NUMORA · LEARN & STUDY</div><h2>'+t.icon+' '+t.name+'</h2><p>'+t.desc+'</p></div></div>'+
  '<article class="panel lessonCard"><div class="lessonSection"><span class="lessonLabel">01 · CONCEPT</span><p>'+d.concept+'</p></div>'+
  '<div class="lessonSection"><span class="lessonLabel">02 · FORMULA / RULE</span><div class="lessonFormula">'+d.formula+'</div></div>'+
  '<div class="lessonSection"><span class="lessonLabel">03 · SHORTCUT & METHOD</span>'+list(d.steps)+'</div>'+
  '<div class="lessonSection lessonExample"><span class="lessonLabel">04 · SOLVED EXAMPLE</span><h3>'+d.example+'</h3><p>Calculation ko reverse operation ya original rule se verify karo.</p></div>'+
  lessonReferenceTable(id)+
  '<div class="lessonSection lessonTry"><span class="lessonLabel">05 · TRY IT YOURSELF</span><p>'+d.practice+'</p></div>'+
- '<button class="btn" onclick="choose(\''+id+'\')">🎯 Practise '+t.name+' →</button></article>';
- $("notes").scrollIntoView({behavior:"smooth"});
+ '<button class="btn" onclick="choose(\\''+id+'\\')">🎯 Practise '+t.name+' →</button></article>';
+ window.scrollTo({top:0,behavior:"instant"});
 }
 window.openTopicNotes=function(id){go("learn");openNotes(id)};window.$=$;
 $("search").addEventListener("input",e=>{const q=e.target.value.toLowerCase().trim();$("learnTopics").innerHTML=topics.filter(t=>(t.name+" "+t.desc+" "+(t.notes||[]).join(" ")).toLowerCase().includes(q)).map(t=>'<button class="topic" onclick="openNotes(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b><small>Open lesson & examples →</small></button>').join("")||'<p class="muted">No lesson found. Try another keyword.</p>'});
@@ -1678,4 +1686,16 @@ button.topic.topicCard .topicOrb{display:none!important}
  #configPanel.nativeConfig .choice small{font-size:10px!important}
  #configPanel.nativeConfig .hubHeadingCopy h2{font-size:23px!important}
 }
+</style><style id="numoraLearnDetailScreen">
+#studyArea.learnDetailMode>#notes{display:block!important;width:100%!important;margin:0!important;padding:0!important}
+#studyArea.learnDetailMode>#notes .lessonTop{
+ display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+ gap:12px!important;margin:0 0 16px!important;padding:0!important
+}
+#studyArea.learnDetailMode>#notes .lessonTop>div h2{margin:5px 0!important;font-size:25px!important;line-height:1.2!important}
+#studyArea.learnDetailMode>#notes .lessonTop>div p{margin:0!important;color:var(--muted)!important}
+#studyArea.learnDetailMode>#notes .lessonCard{margin:0 0 22px!important;padding:18px!important}
+#studyArea.learnDetailMode>#notes .lessonSection{margin:0 0 18px!important}
+#studyArea.learnDetailMode>#notes .lessonSection:last-child{margin-bottom:0!important}
+#studyArea.learnDetailMode>#notes .lessonCard .btn{width:100%!important;margin-top:14px!important}
 </style></style></body></html>
