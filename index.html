@@ -1417,6 +1417,7 @@ button.topic.topicCard .topicOrb{display:none!important}
  const topicById=id=>allTopics.find(t=>t.id===id);
  const escape=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
  function setHeading(isRoot){
+  title.style.display="block";
   title.innerHTML=isRoot
    ?'<div><span class="hubEyebrow">NUMORA · PRACTICE</span><h2>What would you like to practise?</h2><p>Choose one section to continue</p></div>'
    :'<button class="hubBack" type="button" id="hubBack">‹</button><div class="hubHeadingCopy"><span class="hubEyebrow">CHOOSE A TOPIC</span><h2>'+escape(groups.find(g=>g.id===activeGroup).name)+'</h2><p>Select a topic to open its settings</p></div>';
@@ -1424,7 +1425,7 @@ button.topic.topicCard .topicOrb{display:none!important}
  }
  function renderRoot(){
   activeGroup=null;page=0;
-  title.innerHTML='<div><span class="hubEyebrow">NUMORA · PRACTICE</span><h2>Practice Sessions</h2><p>Choose a topic to start practising</p></div>';
+  title.innerHTML="";title.style.display="none";
   grid.className="hubGrid hubTopicGrid";
   grid.innerHTML=allTopics.map((t,i)=>'<button class="hubCard hubTopic '+["hubViolet","hubTeal","hubBlue","hubRose","hubAmber","hubIndigo"][(i)%6]+'" type="button" data-topic="'+escape(t.id)+'"><span class="hubIcon">'+t.icon+'</span><b>'+escape(t.name)+'</b><small>'+escape(t.desc||"Practice questions")+'</small><i>Practice&nbsp; ›</i></button>').join("");
   grid.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>window.choose(b.dataset.topic)));
