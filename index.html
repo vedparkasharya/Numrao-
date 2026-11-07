@@ -424,7 +424,7 @@ button.topic.topicCard:after{display:none!important}
 <button class="gymTile" onclick="startExtra('percent')">％ <b>Percentage Shortcuts</b><small>Fast mental percentages</small></button>
 <button class="gymTile" onclick="startExtra('estimate')">🎯 <b>Estimation</b><small>Approximate quickly</small></button>
 <button class="gymTile" onclick="startExtra('mixed')">🔥 <b>Mixed Challenge</b><small>All extra skills together</small></button></div>
-<div class="configBlock"><h3>Extra Lab · Repetition</h3><select id="extraRepeatCount" class="search"><option value="1">1× · Normal</option><option value="2">2× · Repeat every question twice</option><option value="3">3× · Repeat every question 3 times</option><option value="5">5× · Repeat every question 5 times</option></select><p class="muted">Applies to Unit Digit, Digital Root, Near-base, Percentage, Estimation and Mixed Challenge.</p></div><div id="extraGame" class="gymGame hide"></div><div class="panel" style="margin-top:16px"><h3>Quick Formula Desk</h3><p><b>Unit digit:</b> powers repeat in cycles of at most 4. Reduce the exponent using the cycle length.</p><p><b>Digital root:</b> repeatedly add digits; for a positive integer, the result is congruent modulo 9.</p><p><b>Near 100:</b> (100−a)(100−b) = (100−a−b) × 100 + ab.</p><p><b>Percentage:</b> x% of y = y% of x. 25% = ÷4, 12.5% = ÷8, 5% = ÷20.</p><p><b>Estimation:</b> round to compatible numbers, estimate, then check whether the options are sufficiently separated.</p><small class="muted">Use exact calculation when the question asks for an exact value; estimation is only for suitable questions.</small></div></section></section><nav class="bottom"><button class="active" data-nav="home">⌂<br>Home</button><button data-nav="learn">▤<br>Learn</button><button data-nav="practice">▦<br>Practice</button><button data-nav="brainGym">✦<br>Brain Gym</button><button data-nav="progress">▥<br>Progress</button></nav>
+<div class="configBlock"><h3>Extra Lab · Repetition</h3><select id="extraRepeatCount" class="search"><option value="1">1× · Normal</option><option value="2">2× · Repeat every question twice</option><option value="3">3× · Repeat every question 3 times</option><option value="5">5× · Repeat every question 5 times</option></select><p class="muted">Applies to Unit Digit, Digital Root, Near-base, Percentage, Estimation and Mixed Challenge.</p></div><div id="extraGame" class="gymGame hide"></div><div class="panel" style="margin-top:16px"><h3>Quick Formula Desk</h3><p><b>Unit digit:</b> powers repeat in cycles of at most 4. Reduce the exponent using the cycle length.</p><p><b>Digital root:</b> repeatedly add digits; for a positive integer, the result is congruent modulo 9.</p><p><b>Near 100:</b> (100−a)(100−b) = (100−a−b) × 100 + ab.</p><p><b>Percentage:</b> x% of y = y% of x. 25% = ÷4, 12.5% = ÷8, 5% = ÷20.</p><p><b>Estimation:</b> round to compatible numbers, estimate, then check whether the options are sufficiently separated.</p><small class="muted">Use exact calculation when the question asks for an exact value; estimation is only for suitable questions.</small></div></section></section><nav class="bottom"><button class="active" data-nav="home">⌂<br>Home</button><button data-nav="learn" type="button" onclick="window.numoraOpenLearn&&window.numoraOpenLearn()">▤<br>Learn</button><button data-nav="practice">▦<br>Practice</button><button data-nav="brainGym">✦<br>Brain Gym</button><button data-nav="progress">▥<br>Progress</button></nav>
 <script>
 const topics=[
 {id:"addition",icon:"➕",name:"Addition",desc:"Fast addition and number sums",notes:["Column addition: align digits by place value, then add from right to left.","Make 10/100: 48+37 = 48+2+35 = 85.","Break numbers: 236+147 = (200+100)+(30+40)+(6+7)=383.","Digital sum can verify a result modulo 9, but does not prove it exact."]},
@@ -1700,7 +1700,33 @@ button.topic.topicCard .topicOrb{display:none!important}
 #studyArea.learnDetailMode>#notes .lessonSection{margin:0 0 18px!important}
 #studyArea.learnDetailMode>#notes .lessonSection:last-child{margin-bottom:0!important}
 #studyArea.learnDetailMode>#notes .lessonCard .btn{width:100%!important;margin-top:14px!important}
-</style></style><style id="numoraHomeScrollAndLearnFix">
+</style></style><script id="numoraLearnNavigationRepair">
+window.numoraOpenLearn=function(){
+ try{
+  if(typeof closeLearnLesson==="function")closeLearnLesson();
+  if(typeof setLearnMode==="function")setLearnMode("study");
+  if(typeof go==="function")go("learn");
+  const page=document.getElementById("learn");
+  if(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p===page));}
+  document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav==="learn"));
+  const area=document.getElementById("studyArea");
+  if(area)area.classList.remove("hide","learnDetailMode");
+  const list=document.getElementById("learnTopics");
+  if(list)list.classList.remove("hide");
+  const search=document.getElementById("search");
+  if(search)search.classList.remove("hide");
+  const notes=document.getElementById("notes");
+  if(notes)notes.innerHTML="";
+  window.scrollTo(0,0);
+ }catch(err){console.error("Numora Learn navigation:",err);}
+};
+document.addEventListener("click",function(e){
+ const b=e.target.closest('[data-nav="learn"]');
+ if(!b)return;
+ e.preventDefault();
+ window.numoraOpenLearn();
+},true);
+</script><style id="numoraHomeScrollAndLearnFix">
 #home.page.active{
  height:auto!important;min-height:calc(100dvh - 160px)!important;
  max-height:none!important;overflow:visible!important;
