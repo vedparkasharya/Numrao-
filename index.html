@@ -1445,7 +1445,7 @@ button.topic.topicCard .topicOrb{display:none!important}
   config.querySelectorAll(".configBlock").forEach((el,i)=>el.classList.add(["cfgRange","cfgRemember","cfgDifficulty","cfgRepeat","cfgCount","cfgOptions"][i]||"cfgExtra"));
   document.getElementById("practicePicker").classList.add("hide");
   const h=config.querySelector(".heading");
-  if(h){h.innerHTML='<button class="hubBack" type="button" id="configBack">‹</button><div class="hubHeadingCopy"><span class="hubEyebrow">PRACTICE SETUP</span><h2>Configure session</h2><p>Choose how you want to practise</p></div>';document.getElementById("configBack").onclick=()=>window.backToTopics()}
+  if(h){h.innerHTML='<button class="hubBack" type="button" id="configBack">‹</button><div class="hubHeadingCopy"><h2>Practice settings</h2></div>';document.getElementById("configBack").onclick=()=>window.backToTopics()}
   window.scrollTo(0,0);
  };
  window.backToTopics=function(){
@@ -1563,4 +1563,119 @@ button.topic.topicCard .topicOrb{display:none!important}
  #learnTopics.grid>button.topic.topicCard b{font-size:13px!important}
  #learnTopics.grid>button.topic.topicCard .topicIcon{top:10px!important;left:10px!important}
 }
-</style></body></html>
+<style id="numoraConfigRoomyFix">
+/* Give the practice setup a clean, spacious hierarchy */
+#configPanel.nativeConfig{
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:12px!important;
+ align-items:start!important;
+ padding-bottom:24px!important;
+}
+#configPanel.nativeConfig>.heading{
+ grid-column:1/-1!important;
+ display:flex!important;
+ align-items:center!important;
+ gap:14px!important;
+ margin:0 0 2px!important;
+ min-height:54px!important;
+}
+#configPanel.nativeConfig .hubHeadingCopy h2{
+ margin:0!important;
+ font-size:25px!important;
+ line-height:1.15!important;
+ letter-spacing:-.5px!important;
+}
+#configPanel.nativeConfig>.configHero{
+ grid-column:1/-1!important;
+ padding:17px 19px!important;
+ min-height:86px!important;
+}
+#configPanel.nativeConfig .configHero .tag{
+ font-size:10px!important;
+ letter-spacing:1px!important;
+}
+#configPanel.nativeConfig .configHero h2{
+ font-size:23px!important;
+ line-height:1.2!important;
+ margin:5px 0 0!important;
+}
+#configPanel.nativeConfig .configBlock{
+ min-width:0!important;
+ padding:13px!important;
+ margin:0!important;
+ border-radius:16px!important;
+}
+#configPanel.nativeConfig .cfgRange,
+#configPanel.nativeConfig .cfgRemember,
+#configPanel.nativeConfig>.startBtn{
+ grid-column:1/-1!important;
+}
+#configPanel.nativeConfig .configBlock h3{
+ font-size:15px!important;
+ line-height:1.25!important;
+ margin:0 0 10px!important;
+}
+#configPanel.nativeConfig .configChoices{gap:9px!important}
+#configPanel.nativeConfig .choice{
+ min-height:52px!important;
+ padding:11px 10px!important;
+ font-size:13px!important;
+ line-height:1.25!important;
+ border-radius:13px!important;
+}
+#configPanel.nativeConfig .choice small{
+ font-size:11px!important;
+ line-height:1.3!important;
+ margin-top:5px!important;
+}
+#configPanel.nativeConfig .cfgRemember .choice{
+ min-height:58px!important;
+ font-size:13px!important;
+}
+#configPanel.nativeConfig .search,
+#configPanel.nativeConfig select.search{
+ width:100%!important;
+ min-height:44px!important;
+ padding:10px 12px!important;
+ margin:0!important;
+ font-size:13px!important;
+ border-radius:13px!important;
+ box-sizing:border-box!important;
+}
+#configPanel.nativeConfig .cfgRepeat p{display:none!important}
+#configPanel.nativeConfig .cfgOptions h3{margin:0 0 7px!important}
+#configPanel.nativeConfig .cfgOptions select{margin-bottom:11px!important}
+#configPanel.nativeConfig .examToggle{
+ display:flex!important;
+ align-items:center!important;
+ gap:8px!important;
+ margin-top:8px!important;
+ font-size:12px!important;
+ line-height:1.3!important;
+}
+#configPanel.nativeConfig .startBtn{
+ position:static!important;
+ inset:auto!important;
+ width:100%!important;
+ min-height:58px!important;
+ margin:4px 0 0!important;
+ padding:14px 18px!important;
+ font-size:19px!important;
+ border-radius:16px!important;
+ box-shadow:0 8px 18px #19b99b24!important;
+}
+#practice.nativeConfigPage.page.active{
+ height:auto!important;
+ min-height:calc(100dvh - 160px)!important;
+ max-height:none!important;
+ overflow-y:auto!important;
+ padding-bottom:30px!important;
+}
+@media(max-width:420px){
+ #configPanel.nativeConfig{gap:10px!important}
+ #configPanel.nativeConfig .configBlock{padding:11px!important}
+ #configPanel.nativeConfig .choice{font-size:12px!important;padding:10px 8px!important}
+ #configPanel.nativeConfig .choice small{font-size:10px!important}
+ #configPanel.nativeConfig .hubHeadingCopy h2{font-size:23px!important}
+}
+</style></style></body></html>
