@@ -515,7 +515,7 @@ const remaining=topics.filter(t=>!used.has(t.id));
 if(remaining.length)groups.push({title:"More Practice Topics",level:"ADDITIONAL",hint:"Other available calculation and reasoning topics",items:remaining});
 if(noteMode){
 return groups.flatMap(group=>group.items).map((t,index)=>
-'<button class="topic topicCard topicColor'+(index%12)+'" onclick="openNotes(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>'
+'<button class="topic topicCard topicColor'+(index%12)+'" onclick="openTopicNotes(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>'
 ).join("");
 }
 return groups.map(group=>{
@@ -527,7 +527,7 @@ function homeLearnHTML(){
 const icons={squares:"◻️",cubes:"📦",squareroot:"√",cuberoot:"∛",tables:"📋",divisibility:"🔀",hcf:"🔗",addition:"➕",subtraction:"➖",multiplication:"✖️",division:"➗"};
 const symbols={squares:"x²",cubes:"x³",squareroot:"√x",cuberoot:"∛x",tables:"×",divisibility:"÷?",hcf:"H/L"};
 const palette={squares:0,cubes:1,squareroot:2,cuberoot:3,tables:4,divisibility:5,hcf:6,addition:8,subtraction:9,multiplication:10,division:11};
-return topics.map((t,i)=>{const color=palette[t.id]??(i%12);return '<button class="topic topicCard topicColor'+color+'" onclick="openNotes(\''+t.id+'\')"><span class="topicIcon">'+(icons[t.id]||t.icon)+'</span><span class="topicSymbol">'+(symbols[t.id]||t.icon)+'</span><b>'+t.name+'</b><small>Learn →</small><span class="topicOrb"></span></button>'}).join("");
+return topics.map((t,i)=>{const color=palette[t.id]??(i%12);return '<button class="topic topicCard topicColor'+color+'" onclick="openTopicNotes(\''+t.id+'\')"><span class="topicIcon">'+(icons[t.id]||t.icon)+'</span><span class="topicSymbol">'+(symbols[t.id]||t.icon)+'</span><b>'+t.name+'</b><small>Learn →</small><span class="topicOrb"></span></button>'}).join("");
 }
 function drawTopics(){
 const allTopicsHTML=groupedTopicHTML(false);
@@ -657,13 +657,15 @@ function closeLearnLesson(){
  const notes=$("notes");if(notes)notes.innerHTML="";
  const list=$("learnTopics");if(list)list.classList.remove("hide");
  const search=$("search");if(search)search.classList.remove("hide");
- window.scrollTo({top:0,behavior:"smooth"});
+ window.scrollTo(0,0);
 }
 function openNotes(id){
  const t=topics.find(x=>x.id===id);if(!t)return;
  const d=lessonBank[id]||{concept:"Understand the rule, identify the pattern and practise it with timed questions.",formula:"Use the rule shown in the topic notes.",steps:t.notes||[],example:t.notes&&t.notes[0]||"Apply the rule step by step.",practice:"Try one question from this topic."};
  const list=(arr)=>"<ul>"+arr.map(x=>"<li>"+x+"</li>").join("")+"</ul>";
  $("studyArea").classList.add("learnDetailMode");
+ $("learnTopics").classList.add("hide");
+ $("search").classList.add("hide");
  $("notes").innerHTML='<div class="lessonTop"><button class="btn alt" onclick="closeLearnLesson()">← All topics</button><div><div class="tag">NUMORA · LEARN & STUDY</div><h2>'+t.icon+' '+t.name+'</h2><p>'+t.desc+'</p></div></div>'+
  '<article class="panel lessonCard"><div class="lessonSection"><span class="lessonLabel">01 · CONCEPT</span><p>'+d.concept+'</p></div>'+
  '<div class="lessonSection"><span class="lessonLabel">02 · FORMULA / RULE</span><div class="lessonFormula">'+d.formula+'</div></div>'+
@@ -672,10 +674,10 @@ function openNotes(id){
  lessonReferenceTable(id)+
  '<div class="lessonSection lessonTry"><span class="lessonLabel">05 · TRY IT YOURSELF</span><p>'+d.practice+'</p></div>'+
  '<button class="btn" onclick="choose(\\''+id+'\\')">🎯 Practise '+t.name+' →</button></article>';
- window.scrollTo({top:0,behavior:"instant"});
+ window.scrollTo(0,0);
 }
-window.openTopicNotes=function(id){go("learn");openNotes(id)};window.$=$;
-$("search").addEventListener("input",e=>{const q=e.target.value.toLowerCase().trim();$("learnTopics").innerHTML=topics.filter(t=>(t.name+" "+t.desc+" "+(t.notes||[]).join(" ")).toLowerCase().includes(q)).map(t=>'<button class="topic" onclick="openNotes(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b><small>Open lesson & examples →</small></button>').join("")||'<p class="muted">No lesson found. Try another keyword.</p>'});
+window.openTopicNotes=function(id){go("learn");setLearnMode("study");openNotes(id)};window.$=$;
+$("search").addEventListener("input",e=>{const q=e.target.value.toLowerCase().trim();$("learnTopics").innerHTML=topics.filter(t=>(t.name+" "+t.desc+" "+(t.notes||[]).join(" ")).toLowerCase().includes(q)).map(t=>'<button class="topic" onclick="openTopicNotes(\''+t.id+'\')"><span class="ico">'+t.icon+'</span><b>'+t.name+'</b><small>Open lesson & examples →</small></button>').join("")||'<p class="muted">No lesson found. Try another keyword.</p>'});
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}function dr(n){n=Math.abs(n);return n===0?0:1+(n-1)%9}function unit(a,n){const c={0:[0],1:[1],2:[2,4,8,6],3:[3,9,7,1],4:[4,6],5:[5],6:[6],7:[7,9,3,1],8:[8,4,2,6],9:[9,1]}[a%10];return c[(n-1)%c.length]}
 
 function genReasoning(id){
@@ -1698,4 +1700,25 @@ button.topic.topicCard .topicOrb{display:none!important}
 #studyArea.learnDetailMode>#notes .lessonSection{margin:0 0 18px!important}
 #studyArea.learnDetailMode>#notes .lessonSection:last-child{margin-bottom:0!important}
 #studyArea.learnDetailMode>#notes .lessonCard .btn{width:100%!important;margin-top:14px!important}
-</style></style></body></html>
+</style></style><style id="numoraHomeScrollAndLearnFix">
+#home.page.active{
+ height:auto!important;min-height:calc(100dvh - 160px)!important;
+ max-height:none!important;overflow:visible!important;
+ display:block!important;flex:none!important;
+ padding-bottom:24px!important;overscroll-behavior-y:contain!important;
+}
+#home #homeTopics.hubGrid,#home #homeTopics.grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-auto-rows:minmax(170px,auto)!important;align-content:start!important;
+ align-items:stretch!important;gap:12px!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;flex:none!important;padding-bottom:18px!important;
+}
+#home #homeTopics .hubCard,#home #homeTopics>button.topic{
+ height:170px!important;min-height:170px!important;max-height:none!important;
+}
+#studyArea.learnDetailMode>#learnTopics,#studyArea.learnDetailMode>#search{display:none!important}
+#studyArea.learnDetailMode>#notes{display:block!important;width:100%!important;margin:0!important;padding:0!important}
+#studyArea.learnDetailMode>#notes .lessonTop{margin-bottom:16px!important}
+#studyArea.learnDetailMode>#notes .lessonCard{margin-bottom:24px!important}
+</style></body></html>
