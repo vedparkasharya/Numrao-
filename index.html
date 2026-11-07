@@ -1423,11 +1423,12 @@ button.topic.topicCard .topicOrb{display:none!important}
   const back=document.getElementById("hubBack");if(back)back.onclick=()=>renderRoot();
  }
  function renderRoot(){
-  activeGroup=null;page=0;setHeading(true);
-  grid.className="hubGrid hubCategoryGrid";
-  grid.innerHTML=groups.map(g=>'<button class="hubCard '+g.color+'" type="button" data-group="'+g.id+'"><span class="hubIcon">'+g.icon+'</span><b>'+escape(g.name)+'</b><small>'+escape(g.sub)+'</small><i>Open section&nbsp; ›</i></button>').join("");
-  grid.querySelectorAll("[data-group]").forEach(b=>b.addEventListener("click",()=>renderGroup(b.dataset.group)));
-  pager.innerHTML='<div class="hubHint">Pick a section · your next screen opens instantly</div>';
+  activeGroup=null;page=0;
+  title.innerHTML='<div><span class="hubEyebrow">NUMORA · PRACTICE</span><h2>Practice Sessions</h2><p>Choose a topic to start practising</p></div>';
+  grid.className="hubGrid hubTopicGrid";
+  grid.innerHTML=allTopics.map((t,i)=>'<button class="hubCard hubTopic '+["hubViolet","hubTeal","hubBlue","hubRose","hubAmber","hubIndigo"][(i)%6]+'" type="button" data-topic="'+escape(t.id)+'"><span class="hubIcon">'+t.icon+'</span><b>'+escape(t.name)+'</b><small>'+escape(t.desc||"Practice questions")+'</small><i>Practice&nbsp; ›</i></button>').join("");
+  grid.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>window.choose(b.dataset.topic)));
+  pager.innerHTML='<div class="hubHint">'+allTopics.length+' topics · Scroll to explore all topics</div>';
  }
  function renderGroup(id){
   activeGroup=id;lastGroup=id;page=0;renderGroupPage();
@@ -1756,4 +1757,11 @@ window.addEventListener("DOMContentLoaded",()=>render());render();
 #learn.page.active #learnTopics{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-content:start!important;min-height:180px!important;visibility:visible!important}
 #learn.page.active #learnTopics>button{display:flex!important;visibility:visible!important;opacity:1!important}
 #learn.page.active #learnTopics.hide{display:none!important}
+</style><style id="numoraAllPracticeCardsScroll">
+#home.page.active{height:auto!important;min-height:calc(100dvh - 160px)!important;max-height:none!important;overflow:visible!important;display:block!important;flex:none!important;padding-bottom:28px!important}
+#home #homeTopics.hubGrid.hubTopicGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:minmax(170px,auto)!important;align-content:start!important;align-items:stretch!important;gap:12px!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;flex:none!important;padding-bottom:18px!important}
+#home #homeTopics.hubGrid.hubTopicGrid>.hubCard{display:flex!important;visibility:visible!important;opacity:1!important;width:100%!important;height:170px!important;min-height:170px!important;max-height:none!important}
+#numoraHubTitle{margin-bottom:16px!important}
+#numoraHubPager{margin:14px 0 24px!important}
+@media(max-width:360px){#home #homeTopics.hubGrid.hubTopicGrid>.hubCard{height:158px!important;min-height:158px!important}}
 </style></body></html>
