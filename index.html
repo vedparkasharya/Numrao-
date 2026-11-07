@@ -1493,4 +1493,43 @@ button.topic.topicCard .topicOrb{display:none!important}
  window.numoraShowHub=renderRoot;
  renderRoot();
 })();
-</script></body></html>
+</script><style id="numoraConfigFit">
+#configPanel.nativeConfig{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 9px;align-content:start}
+#configPanel.nativeConfig>.heading,#configPanel.nativeConfig>.configHero,#configPanel.nativeConfig>.startBtn{grid-column:1/-1}
+#configPanel.nativeConfig>.heading{margin:0 0 2px!important}
+#configPanel.nativeConfig .configHero{padding:10px 13px!important;margin:0!important;border-radius:15px!important}
+#configPanel.nativeConfig .configHero .tag{font-size:9px}
+#configPanel.nativeConfig .configHero h2{font-size:19px!important;margin:2px 0!important}
+#configPanel.nativeConfig .configHero p{display:none!important}
+#configPanel.nativeConfig .configBlock{min-width:0;margin:0!important;padding:9px!important;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+#configPanel.nativeConfig .configBlock h3{font-size:12px!important;line-height:1.15;margin:0 0 7px!important}
+#configPanel.nativeConfig .configChoices{gap:6px!important}
+#configPanel.nativeConfig .choice{min-width:0!important;padding:8px 6px!important;border-radius:10px!important;font-size:11px!important;line-height:1.15}
+#configPanel.nativeConfig .choice small{font-size:9px!important;line-height:1.15;margin-top:3px}
+#configPanel.nativeConfig .cfgRemember{grid-column:1/-1;padding:7px!important}
+#configPanel.nativeConfig .cfgRemember .configChoices{grid-template-columns:1fr 1fr!important}
+#configPanel.nativeConfig .cfgRemember .choice{padding:9px 5px!important}
+#configPanel.nativeConfig .cfgRepeat p{display:none!important}
+#configPanel.nativeConfig .search,#configPanel.nativeConfig select.search{padding:8px 9px!important;margin:0!important;font-size:11px!important;min-height:36px}
+#configPanel.nativeConfig .cfgOptions h3{margin:0 0 5px!important}
+#configPanel.nativeConfig .cfgOptions select{margin-bottom:7px!important}
+#configPanel.nativeConfig .examToggle{font-size:10px!important;line-height:1.15}
+#configPanel.nativeConfig .startBtn{margin:2px 0 0!important;padding:12px!important;min-height:44px}
+#configPanel.nativeConfig .rangeInputs{gap:6px!important}
+#configPanel.nativeConfig .rangeInputs label{font-size:10px}
+#configPanel.nativeConfig .rangeInputs input{padding:7px!important;min-width:0}
+#practice.nativeConfigPage.page.active{overflow-y:auto!important;overscroll-behavior:contain}
+@media(max-height:720px){
+ #practice.nativeConfigPage.page.active{height:calc(100dvh - 158px)!important}
+ #configPanel.nativeConfig{gap:5px 7px}
+ #configPanel.nativeConfig .configBlock{padding:7px!important}
+ #configPanel.nativeConfig .configHero{padding:8px 11px!important}
+ #configPanel.nativeConfig .choice{padding:6px 5px!important}
+}
+@media(max-width:370px){
+ #configPanel.nativeConfig{gap:5px}
+ #configPanel.nativeConfig .configBlock{padding:6px!important}
+ #configPanel.nativeConfig .choice{font-size:10px!important}
+ #configPanel.nativeConfig .cfgOptions{grid-column:1/-1}
+}
+</style></body></html>
