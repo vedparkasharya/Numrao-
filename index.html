@@ -674,7 +674,7 @@ function openNotes(id){
  '<div class="lessonSection lessonExample"><span class="lessonLabel">04 · SOLVED EXAMPLE</span><h3>'+d.example+'</h3><p>Calculation ko reverse operation ya original rule se verify karo.</p></div>'+
  lessonReferenceTable(id)+
  '<div class="lessonSection lessonTry"><span class="lessonLabel">05 · TRY IT YOURSELF</span><p>'+d.practice+'</p></div>'+
- '<button class="btn" onclick="choose(\\''+id+'\\')">🎯 Practise '+t.name+' →</button></article>';
+ '<button class="btn" onclick="choose(\''+id+'\')">🎯 Practise '+t.name+' →</button></article>';
  window.scrollTo(0,0);
 }
 window.openTopicNotes=function(id){go("learn");setLearnMode("study");openNotes(id)};window.$=$;
