@@ -1783,4 +1783,63 @@ window.addEventListener("DOMContentLoaded",()=>render());render();
 #learn.page.active #studyArea>#search{display:none!important}
 #learn.page.active #studyArea{display:block!important;margin-top:0!important;padding-top:0!important}
 #learn.page.active #learnTopics{margin-top:0!important}
+</style><style id="numoraPracticeScrollAndPolish">
+/* Practice setup must use normal document scrolling; fixed bottom tabs must not trap the page. */
+html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important}
+body{overscroll-behavior-y:auto!important}
+.wrap{height:auto!important;min-height:100dvh!important;overflow:visible!important;padding-bottom:calc(150px + env(safe-area-inset-bottom))!important}
+#practice.nativeConfigPage.page.active{
+ display:block!important;
+ height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;overflow-y:visible!important;
+ padding-bottom:calc(145px + env(safe-area-inset-bottom))!important;
+ touch-action:pan-y!important;overscroll-behavior: auto!important;
+}
+#configPanel.nativeConfig{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:start!important;align-content:start!important;
+ gap:12px!important;padding:0 0 145px!important;
+ height:auto!important;max-height:none!important;overflow:visible!important;
+}
+#configPanel.nativeConfig>.heading,
+#configPanel.nativeConfig>.configHero,
+#configPanel.nativeConfig>.cfgRange,
+#configPanel.nativeConfig>.cfgRemember,
+#configPanel.nativeConfig>.cfgDifficulty,
+#configPanel.nativeConfig>.startBtn{grid-column:1/-1!important}
+#configPanel.nativeConfig .configBlock{
+ min-width:0!important;height:auto!important;min-height:0!important;
+ padding:14px!important;margin:0!important;overflow:visible!important;
+ border:1px solid var(--numora-border)!important;border-radius:17px!important;
+ background:var(--card)!important;box-shadow:0 3px 12px rgba(24,55,40,.045)!important;
+}
+#configPanel.nativeConfig .configBlock h3{font-size:15px!important;line-height:1.25!important;margin:0 0 10px!important}
+#configPanel.nativeConfig .configChoices{display:grid!important;gap:8px!important;min-width:0!important}
+#configPanel.nativeConfig .configChoices.two{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#configPanel.nativeConfig .configChoices.three{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#configPanel.nativeConfig .choice{
+ min-width:0!important;min-height:56px!important;height:auto!important;
+ padding:11px 8px!important;white-space:normal!important;
+ font-size:13px!important;line-height:1.25!important;overflow-wrap:anywhere!important;
+ border-radius:13px!important;
+}
+#configPanel.nativeConfig .choice small{display:block!important;font-size:11px!important;line-height:1.3!important;margin-top:5px!important}
+#configPanel.nativeConfig .search,
+#configPanel.nativeConfig select.search{width:100%!important;min-width:0!important;min-height:46px!important;font-size:14px!important;padding:10px 12px!important}
+#configPanel.nativeConfig .rangeInputs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+#configPanel.nativeConfig .rangeInputs input{width:100%!important;min-width:0!important}
+#configPanel.nativeConfig .startBtn{
+ position:static!important;inset:auto!important;grid-column:1/-1!important;
+ width:100%!important;min-height:58px!important;margin:4px 0 0!important;
+}
+#practice.nativeConfigPage .configHero{margin:0!important}
+#practice.nativeConfigPage .heading{margin:0 0 14px!important}
+#practice.nativeConfigPage .hubHeadingCopy h2{font-size:25px!important}
+.bottom{z-index:100!important}
+@media(max-width:390px){
+ #configPanel.nativeConfig{gap:10px!important}
+ #configPanel.nativeConfig .configBlock{padding:11px!important}
+ #configPanel.nativeConfig .choice{font-size:12px!important;padding:9px 6px!important}
+ #configPanel.nativeConfig .choice small{font-size:10px!important}
+}
 </style></body></html>
