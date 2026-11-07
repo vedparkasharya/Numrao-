@@ -440,7 +440,7 @@ const topics=[
 {id:"cubes",icon:"³",name:"Cubes",desc:"Cube values and identities",notes:["Cube means n×n×n. Learn cubes 1³ to 20³.","(a+b)³=a³+3a²b+3ab²+b³.","(a−b)³=a³−3a²b+3ab²−b³.","Example: 12³=1728."]},
 {id:"squareroot",icon:"√",name:"Square Root",desc:"Perfect squares and estimation",notes:["√N is the number whose square equals N.","Pair digits from right to left for long square-root method.","If 30²=900 and 31²=961, then √930 lies between 30 and 31.","Last digit patterns help eliminate impossible square roots."]},
 {id:"cuberoot",icon:"∛",name:"Cube Root",desc:"Perfect cubes and quick identification",notes:["∛N is the number whose cube equals N.","Learn cubes 1³–20³ for quick identification.","Example: ∛1728=12 because 12³=1728.","For large perfect cubes, group digits in triples from the right."]},
-{id:"tables",icon:"▦",name:"Tables",desc:"Multiplication tables and speed drills",notes:["Practise tables 2–25 daily.","Use distributive patterns: 17×8 = (10+7)×8 = 136.","For ×9, multiply by 10 and subtract the number.","For ×99, multiply by 100 and subtract the number."]},
+{id:"tables",icon:"▦",name:"Tables",desc:"Multiplication tables and speed drills",notes:["Practise multiplication tables 1–30 in order, from ×1 to ×10.","Use distributive patterns: 17×8 = (10+7)×8 = 136.","For ×9, multiply by 10 and subtract the number.","For ×99, multiply by 100 and subtract the number."]},
 {id:"hcf",icon:"∞",name:"HCF & LCM",desc:"Factors, multiples and prime factorisation",notes:["HCF = greatest common factor; LCM = least common multiple.","For two positive integers: HCF×LCM = product of the numbers.","Prime factorisation: 12=2²×3; 18=2×3²; HCF=6, LCM=36.","Use Euclid algorithm: HCF(48,18)=HCF(18,12)=HCF(12,6)=6."]},
 {id:"percentage",icon:"％",name:"Percentage",desc:"Fraction conversion and percentage change",notes:["Percentage = (part/whole)×100.","x% of y = y% of x. Example: 16% of 25 = 25% of 16 = 4.","10%=÷10; 5%=half of 10%; 25%=÷4; 12.5%=÷8.","Successive changes a%, b%: net = a+b+ab/100; use negative sign for decrease."]},
 {id:"algebra",icon:"a²",name:"Algebra Basics",desc:"Identities, expressions and equations",notes:["(a+b)²=a²+2ab+b².","a²−b²=(a−b)(a+b).","(a+b)(a−b)=a²−b².","If x+7=15, then x=8. Apply the same operation to both sides."]},
@@ -653,6 +653,9 @@ function lessonReferenceTable(id){
  }
  return "";
 }
+function tablesOneToThirtyHTML(){
+ return '<section class="lessonSection"><span class="lessonLabel">MULTIPLICATION TABLES · 1 TO 30</span><p>Har table 1 se 10 tak, bilkul sequence mein.</p><div class="tables30Grid">'+Array.from({length:30},(_,i)=>{const n=i+1;return '<article class="table30Card"><h3>Table of '+n+'</h3>'+Array.from({length:10},(_,j)=>'<div class="table30Row">'+n+' × '+(j+1)+' = '+(n*(j+1))+'</div>').join('')+'</article>'}).join('')+'</div></section>';
+}
 function closeLearnLesson(){
  const area=$("studyArea");if(area)area.classList.remove("learnDetailMode");
  const notes=$("notes");if(notes)notes.innerHTML="";
@@ -672,7 +675,7 @@ function openNotes(id){
  '<div class="lessonSection"><span class="lessonLabel">02 · FORMULA / RULE</span><div class="lessonFormula">'+d.formula+'</div></div>'+
  '<div class="lessonSection"><span class="lessonLabel">03 · SHORTCUT & METHOD</span>'+list(d.steps)+'</div>'+
  '<div class="lessonSection lessonExample"><span class="lessonLabel">04 · SOLVED EXAMPLE</span><h3>'+d.example+'</h3><p>Calculation ko reverse operation ya original rule se verify karo.</p></div>'+
- lessonReferenceTable(id)+
+ (id==="tables"?tablesOneToThirtyHTML():lessonReferenceTable(id))+
  '<div class="lessonSection lessonTry"><span class="lessonLabel">05 · TRY IT YOURSELF</span><p>'+d.practice+'</p></div>'+
  '<button class="btn" onclick="choose(\''+id+'\')">🎯 Practise '+t.name+' →</button></article>';
  window.scrollTo(0,0);
@@ -1765,4 +1768,10 @@ window.addEventListener("DOMContentLoaded",()=>render());render();
 #numoraHubTitle{margin-bottom:16px!important}
 #numoraHubPager{margin:14px 0 24px!important}
 @media(max-width:360px){#home #homeTopics.hubGrid.hubTopicGrid>.hubCard{height:158px!important;min-height:158px!important}}
+</style><style id="numoraTables1to30">
+.tables30Grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.table30Card{border:1px solid #dbe7e2;border-radius:14px;padding:10px 12px;background:#fff;min-width:0;box-shadow:0 3px 12px rgba(20,60,50,.05)}
+.table30Card h3{font-size:15px;margin:0 0 7px;color:#087e68;border-bottom:1px solid #e5eee9;padding-bottom:6px}
+.table30Row{font-size:13px;line-height:1.55;font-weight:600;color:#263b35;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:360px){.tables30Grid{gap:7px}.table30Card{padding:8px}.table30Row{font-size:12px}}
 </style></body></html>
