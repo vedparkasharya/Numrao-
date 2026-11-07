@@ -523,20 +523,19 @@ function fractionQuestionHTML(value){
  if(!m)return String(value);
  return '<span class="mixedWhole">'+m[1]+'</span><span class="stackedFraction"><span class="fractionTop">'+m[2]+'</span><span class="fractionBottom">'+m[3]+'</span></span> = ?%';
 }
-function fractionConversionOptions(d,mixed){
- const correct=formatFractionPercent(mixed?d+1:1,d),pool=[];
- for(let n=2;n<=30;n++){pool.push(formatFractionPercent(1,n));pool.push(formatFractionPercent(n+1,n))}
+function fractionConversionOptions(d){
+ const correct=formatFractionPercent(1,d),pool=[];
+ for(let n=2;n<=30;n++)pool.push(formatFractionPercent(1,n));
  const unique=[correct];
  for(const value of pool){if(!unique.includes(value)&&unique.length<4)unique.push(value)}
- while(unique.length<4)unique.push(formatFractionPercent(1,unique.length+30));
- return unique.map((value,index)=>({value,correct:value===correct})).sort(()=>Math.random()-.5);
+ return unique.map(value=>({value,correct:value===correct})).sort(()=>Math.random()-.5);
 }
 let activeQOptions=[];
 function gen(id){if(id.startsWith("r_"))return genReasoning(id);let a,b,c,ans,q;let lo=rangeMode==="custom"?Number($("rangeMin").value):null,hi=rangeMode==="custom"?Number($("rangeMax").value):null;let low=lo??(difficulty==="easy"?2:difficulty==="medium"?10:100),high=hi??(difficulty==="easy"?20:difficulty==="medium"?100:999);switch(id){
 case"addition":a=rand(low,high);b=rand(low,high);ans=a+b;q=a+" + "+b+" = ?";break;
 case"subtraction":a=rand(low,high);b=rand(1,a);ans=a-b;q=a+" − "+b+" = ?";break;
 case"fractions":{let d=rand(2,12),n=rand(1,d-1),whole=rand(2,Math.max(3,Math.floor(high/d)));ans=whole*n;q=n+"/"+d+" of "+(whole*d)+" = ?";break;}
-case"fractionconversion":{let d=rand(2,30),mixed=Math.random()<.35;let options=fractionConversionOptions(d,mixed);q=(mixed?"1 1/"+d:"1/"+d)+" = ?%";return {q,ans:options.findIndex(x=>x.correct),options:options.map(x=>x.value)};}
+case"fractionconversion":{let d=rand(2,30);let options=fractionConversionOptions(d);q="1/"+d+" = ?%";return {q,ans:options.findIndex(x=>x.correct),options:options.map(x=>x.value)};}
 case"digitalsum":a=rand(1000,9999999);ans=String(a).split("").reduce((s,d)=>s+Number(d),0);q="Find the digital sum of "+a+".";break;
 case"multiplication":{const fmin=rangeMode==="custom"?low:Math.max(2,Math.floor(low/10)),fmax=rangeMode==="custom"?high:Math.max(3,Math.floor(high/10));a=rand(Math.max(1,fmin),Math.max(Math.max(1,fmin),fmax));b=rand(Math.max(1,fmin),Math.max(Math.max(1,fmin),fmax));ans=a*b;q=a+" × "+b+" = ?";break;}
 case"mentaltricks":{let mode=rand(1,6);if(mode===1){a=rand(11,99);ans=a*11;q="Use the ×11 trick: "+a+" × 11 = ?"}else if(mode===2){a=rand(10,200);ans=a*5;q="Use ×5 = ×10 ÷ 2: "+a+" × 5 = ?"}else if(mode===3){a=rand(4,100)*4;ans=a*25;q="Use ×25 = ×100 ÷ 4: "+a+" × 25 = ?"}else if(mode===4){a=rand(1,99)*10+5;ans=a*a;q="Quick square: "+a+"² = ?"}else if(mode===5){a=rand(91,99);b=rand(91,99);ans=a*b;q="Near 100 shortcut: "+a+" × "+b+" = ?"}else{a=rand(20,999);ans=999*a;q="Compensation trick: "+a+" × 999 = ?"}break;}
