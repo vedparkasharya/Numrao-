@@ -1419,9 +1419,9 @@ button.topic.topicCard .topicOrb{display:none!important}
 <script id="numoraNativeScreenFlow">
 (()=>{
  const home=document.getElementById("home"),grid=document.getElementById("homeTopics");
- if(!home||!grid||!Array.isArray(window.topics))return;
+ if(!home||!grid||typeof topics==="undefined")return;
  const originalChoose=window.choose,originalGo=window.go;
- const allTopics=window.topics;
+ const allTopics=topics;
  const groups=[
   {id:"calculation",name:"Calculation",sub:"Addition, subtraction & speed maths",icon:"🧮",color:"hubViolet",ids:["addition","subtraction","multiplication","division","mentaltricks"]},
   {id:"fractions",name:"Fractions & Percentage",sub:"Fractions, conversions & percentage",icon:"½",color:"hubTeal",ids:["fractions","fractionconversion","percentage"]},
