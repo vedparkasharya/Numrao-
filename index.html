@@ -515,7 +515,7 @@ const remaining=topics.filter(t=>!used.has(t.id));
 if(remaining.length)groups.push({title:"More Practice Topics",level:"ADDITIONAL",hint:"Other available calculation and reasoning topics",items:remaining});
 if(noteMode){
 return groups.flatMap(group=>group.items).map((t,index)=>
-'<button class="topic topicCard topicColor'+(index%12)+'" onclick="openNotes(\\''+t.id+'\\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>'
+'<button class="topic topicCard topicColor'+(index%12)+'" onclick="openNotes(\''+t.id+'\')"><span class="topicIcon">'+t.icon+'</span><b>'+t.name+'</b><small>Learn & Study →</small><span class="topicOrb"></span></button>'
 ).join("");
 }
 return groups.map(group=>{
