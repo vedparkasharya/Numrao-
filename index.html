@@ -1774,4 +1774,13 @@ window.addEventListener("DOMContentLoaded",()=>render());render();
 .table30Card h3{font-size:15px;margin:0 0 7px;color:#087e68;border-bottom:1px solid #e5eee9;padding-bottom:6px}
 .table30Row{font-size:13px;line-height:1.55;font-weight:600;color:#263b35;font-variant-numeric:tabular-nums;white-space:nowrap}
 @media(max-width:360px){.tables30Grid{gap:7px}.table30Card{padding:8px}.table30Row{font-size:12px}}
+</style><style id="numoraCleanLearnLanding">
+/* Learn screen: remove the extra title, mode switches, divisibility banner and search field.
+   Keep the topic cards as the clean entry point. */
+#learn.page.active>.heading,
+#learn.page.active>.learnSwitch,
+#learn.page.active #studyArea>button[onclick*="openDivisibility"],
+#learn.page.active #studyArea>#search{display:none!important}
+#learn.page.active #studyArea{display:block!important;margin-top:0!important;padding-top:0!important}
+#learn.page.active #learnTopics{margin-top:0!important}
 </style></body></html>
