@@ -1366,4 +1366,130 @@ button.topic.topicCard .topicOrb{display:none!important}
 @media(min-width:700px){
  .topicGroup .grid,#homeTopics.grid,#homeLearnTopics.grid,#practiceTopics .grid,#learnTopics .grid,#learnPracticeTopics .grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
 }
-</style></body></html>
+</style><style id="numoraNativeScreenFlowStyles">
+/* App-like, one-screen-at-a-time navigation */
+#home.page.active{height:calc(100dvh - 174px)!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;padding-bottom:0!important}
+#home .heading{display:none!important}
+#homeLearnSection,#home>.panel{display:none!important}
+#numoraHubTitle{display:flex;align-items:center;gap:12px;flex:0 0 auto;margin:8px 0 16px;min-height:62px}
+#numoraHubTitle h2{font-size:clamp(21px,5.5vw,27px);line-height:1.12;letter-spacing:-.5px;margin:2px 0 4px}
+#numoraHubTitle p{font-size:13px;color:var(--muted);margin:0}
+.hubEyebrow{font-size:10px;font-weight:900;letter-spacing:1.4px;color:var(--brand)}
+.hubHeadingCopy{min-width:0}
+.hubBack{width:42px;height:42px;flex:0 0 42px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font-size:29px;line-height:1}
+.hubGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;flex:1 1 auto;min-height:0;align-content:stretch;overflow:hidden}
+.hubCard{position:relative!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-end!important;min-width:0!important;min-height:0!important;width:100%!important;height:100%!important;max-height:none!important;padding:13px!important;border:0!important;border-radius:20px!important;overflow:hidden!important;text-align:left!important;color:#fff!important;box-shadow:0 7px 18px rgba(22,40,34,.12)!important}
+.hubCard.hubViolet{background:linear-gradient(145deg,#7050d8,#a07bf4)!important}
+.hubCard.hubTeal{background:linear-gradient(145deg,#087d69,#32bd91)!important}
+.hubCard.hubBlue{background:linear-gradient(145deg,#24518f,#5595df)!important}
+.hubCard.hubRose{background:linear-gradient(145deg,#bd3f82,#ed719f)!important}
+.hubCard.hubAmber{background:linear-gradient(145deg,#bd6a18,#e6ad40)!important}
+.hubCard.hubIndigo{background:linear-gradient(145deg,#4b4eaa,#777be8)!important}
+.hubCard .hubIcon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;margin-bottom:auto;border-radius:13px;background:#ffffff2b;font-size:23px}
+.hubCard b{display:block;width:100%;margin:12px 0 4px;font-size:clamp(14px,3.8vw,18px);font-weight:900;line-height:1.12;overflow-wrap:anywhere}
+.hubCard small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;width:100%;font-size:11px;line-height:1.25;font-weight:650;color:#ffffffeb}
+.hubCard i{font-style:normal;margin-top:8px;font-size:11px;font-weight:850;color:#fff}
+.hubPager{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 42px;min-height:42px;padding-top:7px;color:var(--muted);font-size:12px}
+.hubPager:has(.hubHint){justify-content:center}
+.hubHint{text-align:center;font-size:11px;color:var(--muted)}
+.hubPageBtn{border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--card);color:var(--ink);font-weight:800}
+.hubPageBtn:disabled{opacity:.3}
+#home .wrap{overflow:hidden}
+#practice.nativeConfigPage.page.active{height:calc(100dvh - 174px)!important;min-height:0!important;overflow-y:auto!important;padding-bottom:10px!important}
+#configPanel.nativeConfig{padding-bottom:12px}
+#configPanel.nativeConfig>.heading{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px}
+#configPanel.nativeConfig .configHero{margin-top:8px}
+#configPanel.nativeConfig .configBlock{margin:12px 0!important}
+#configPanel.nativeConfig .startBtn{position:sticky;bottom:8px;z-index:5;width:100%;box-shadow:0 5px 18px #087b6233}
+@media(max-width:380px){
+ #home.page.active,#practice.nativeConfigPage.page.active{height:calc(100dvh - 164px)!important}
+ #numoraHubTitle{margin:4px 0 10px}
+ .hubGrid{gap:9px!important}
+ .hubCard{padding:10px!important;border-radius:16px!important}
+ .hubCard .hubIcon{width:35px;height:35px;flex-basis:35px;font-size:20px}
+ .hubCard b{font-size:13px;margin-top:8px}
+ .hubCard small{font-size:10px}
+ .hubCard i{font-size:10px;margin-top:5px}
+}
+@media(prefers-reduced-motion:no-preference){
+ .hubCard{animation:hubCardIn .22s ease both}
+ @keyframes hubCardIn{from{opacity:0;transform:translateY(7px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+}
+</style>
+<script id="numoraNativeScreenFlow">
+(()=>{
+ const home=document.getElementById("home"),grid=document.getElementById("homeTopics");
+ if(!home||!grid||!Array.isArray(window.topics))return;
+ const originalChoose=window.choose,originalGo=window.go;
+ const allTopics=window.topics;
+ const groups=[
+  {id:"calculation",name:"Calculation",sub:"Addition, subtraction & speed maths",icon:"🧮",color:"hubViolet",ids:["addition","subtraction","multiplication","division","mentaltricks"]},
+  {id:"fractions",name:"Fractions & Percentage",sub:"Fractions, conversions & percentage",icon:"½",color:"hubTeal",ids:["fractions","fractionconversion","percentage"]},
+  {id:"numbers",name:"Numbers & Algebra",sub:"Powers, roots, tables & number system",icon:"🔢",color:"hubBlue",ids:["digitalsum","number","unitdigit","squares","cubes","squareroot","cuberoot","tables","hcf","divisibility","algebra","coding","mixed"]},
+  {id:"reasoning",name:"Reasoning",sub:"Verbal, analytical & non-verbal",icon:"🧠",color:"hubRose",ids:allTopics.filter(t=>t.id.startsWith("r_")).map(t=>t.id)}
+ ];
+ const used=new Set(groups.flatMap(g=>g.ids));
+ const extra=allTopics.filter(t=>!used.has(t.id));
+ if(extra.length)groups.splice(3,0,{id:"other",name:"Other Practice",sub:"More practice topics",icon:"✦",color:"hubAmber",ids:extra.map(t=>t.id)});
+ let activeGroup=null,page=0,lastGroup="calculation";
+ const title=document.createElement("div");title.id="numoraHubTitle";title.className="hubTitle";
+ grid.parentNode.insertBefore(title,grid);
+ const pager=document.createElement("div");pager.id="numoraHubPager";pager.className="hubPager";grid.insertAdjacentElement("afterend",pager);
+ const topicById=id=>allTopics.find(t=>t.id===id);
+ const escape=s=>String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+ function setHeading(isRoot){
+  title.innerHTML=isRoot
+   ?'<div><span class="hubEyebrow">NUMORA · PRACTICE</span><h2>What would you like to practise?</h2><p>Choose one section to continue</p></div>'
+   :'<button class="hubBack" type="button" id="hubBack">‹</button><div class="hubHeadingCopy"><span class="hubEyebrow">CHOOSE A TOPIC</span><h2>'+escape(groups.find(g=>g.id===activeGroup).name)+'</h2><p>Select a topic to open its settings</p></div>';
+  const back=document.getElementById("hubBack");if(back)back.onclick=()=>renderRoot();
+ }
+ function renderRoot(){
+  activeGroup=null;page=0;setHeading(true);
+  grid.className="hubGrid hubCategoryGrid";
+  grid.innerHTML=groups.map(g=>'<button class="hubCard '+g.color+'" type="button" data-group="'+g.id+'"><span class="hubIcon">'+g.icon+'</span><b>'+escape(g.name)+'</b><small>'+escape(g.sub)+'</small><i>Open section&nbsp; ›</i></button>').join("");
+  grid.querySelectorAll("[data-group]").forEach(b=>b.addEventListener("click",()=>renderGroup(b.dataset.group)));
+  pager.innerHTML='<div class="hubHint">Pick a section · your next screen opens instantly</div>';
+ }
+ function renderGroup(id){
+  activeGroup=id;lastGroup=id;page=0;renderGroupPage();
+ }
+ function renderGroupPage(){
+  const g=groups.find(x=>x.id===activeGroup);if(!g)return renderRoot();
+  setHeading(false);
+  const list=g.ids.map(topicById).filter(Boolean),size=6,pages=Math.max(1,Math.ceil(list.length/size)),start=page*size,shown=list.slice(start,start+size);
+  grid.className="hubGrid hubTopicGrid";
+  grid.innerHTML=shown.map((t,i)=>'<button class="hubCard hubTopic '+["hubViolet","hubTeal","hubBlue","hubRose","hubAmber","hubIndigo"][(start+i)%6]+'" type="button" data-topic="'+escape(t.id)+'"><span class="hubIcon">'+t.icon+'</span><b>'+escape(t.name)+'</b><small>'+escape(t.desc||"Practice questions")+'</small><i>Configure&nbsp; ›</i></button>').join("");
+  grid.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>window.choose(b.dataset.topic)));
+  pager.innerHTML=pages>1
+   ?'<button type="button" class="hubPageBtn" id="hubPrev" '+(page===0?"disabled":"")+' >‹ Previous</button><span>Page '+(page+1)+' of '+pages+'</span><button type="button" class="hubPageBtn" id="hubNext" '+(page===pages-1?"disabled":"")+' >Next ›</button>'
+   :'<div class="hubHint">'+list.length+' topics · Tap any topic to configure</div>';
+  const prev=document.getElementById("hubPrev"),next=document.getElementById("hubNext");
+  if(prev)prev.onclick=()=>{page--;renderGroupPage()};
+  if(next)next.onclick=()=>{page++;renderGroupPage()};
+ }
+ window.choose=function(id){
+  lastGroup=groups.find(g=>g.ids.includes(id))?.id||lastGroup;
+  originalChoose(id);
+  const practice=document.getElementById("practice");
+  practice.classList.add("nativeConfigPage");
+  const config=document.getElementById("configPanel");
+  config.classList.add("nativeConfig");
+  document.getElementById("practicePicker").classList.add("hide");
+  const h=config.querySelector(".heading");
+  if(h){h.innerHTML='<button class="hubBack" type="button" id="configBack">‹</button><div class="hubHeadingCopy"><span class="hubEyebrow">PRACTICE SETUP</span><h2>Configure session</h2><p>Choose how you want to practise</p></div>';document.getElementById("configBack").onclick=()=>window.backToTopics()}
+  window.scrollTo(0,0);
+ };
+ window.backToTopics=function(){
+  const cfg=document.getElementById("configPanel"),quiz=document.getElementById("quizPanel");
+  cfg.classList.add("hide");cfg.classList.remove("nativeConfig");quiz.classList.add("hide");
+  document.getElementById("practice").classList.remove("nativeConfigPage");
+  originalGo("home");renderGroup(lastGroup);
+ };
+ const oldNav=document.querySelector('[data-nav="practice"]');
+ if(oldNav)oldNav.addEventListener("click",()=>{originalGo("home");renderRoot()});
+ const oldHome=document.querySelector('[data-nav="home"]');
+ if(oldHome)oldHome.addEventListener("click",renderRoot);
+ window.numoraShowHub=renderRoot;
+ renderRoot();
+})();
+</script></body></html>
