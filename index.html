@@ -266,21 +266,6 @@ button.topic.topicCard:focus-visible{outline:3px solid #7654df66!important;outli
 .topicGroup+.topicGroup{border-top:1px solid var(--numora-border);padding-top:20px!important}
 #learnTopics .topicCard{min-height:154px!important}
 #homeTopics .topicCard,#homeLearnTopics .topicCard{min-height:148px!important}
-/* PYQ source library */
-.pyqSourceHub{margin:18px 0!important;padding:17px!important;border:1px solid var(--numora-border)!important;border-radius:20px!important;background:var(--card,#fff)!important;box-shadow:var(--numora-shadow)!important}
-.pyqSourceHub h3{font-size:clamp(19px,4.5vw,23px)!important;line-height:1.22!important;margin:0 0 7px!important;overflow-wrap:anywhere}
-.pyqSourceHub .sub{font-size:14px!important;line-height:1.45!important;margin:0 0 15px!important;color:var(--muted)!important}
-.pyqSourceGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
-.pyqSourceCard{position:relative;display:flex!important;flex-direction:column;align-items:flex-start;gap:7px;min-width:0;min-height:150px!important;padding:14px!important;border:1px solid var(--numora-border)!important;border-radius:16px!important;background:var(--card,#fff)!important;color:var(--ink,#172820)!important;text-decoration:none!important;box-shadow:none!important;transition:border-color .18s,transform .18s}
-.pyqSourceCard:focus-visible{outline:3px solid #7654df66;outline-offset:2px}
-.pyqCardIcon{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--numora-purple-soft);font-size:19px}
-.pyqSourceCard b{font-size:15px!important;line-height:1.25!important;overflow-wrap:anywhere}
-.pyqSourceCard strong{font-size:19px;line-height:1.1;color:var(--numora-teal);font-weight:850}
-.pyqSourceCard strong small{display:inline!important;font-size:11px!important;font-weight:700;color:var(--muted)!important}
-.pyqSourceCard em{font-size:12px;font-style:normal;line-height:1.4;color:var(--muted)}
-.pyqCardAction{margin-top:auto;padding-top:5px;font-size:12px;font-weight:800;color:var(--numora-purple)}
-.pyqSourceFoot{font-size:12px!important;line-height:1.5!important;color:var(--muted)!important;margin-top:14px!important}
-#analogyBank+.panel,.pyqHero{border-radius:18px!important}
 /* Home feature cards: one neutral surface, consistent CTA and labels */
 #home .panel[style*="linear-gradient"]{background:var(--card)!important;color:var(--ink)!important;border:1px solid var(--numora-border)!important;border-radius:19px!important;padding:17px!important;box-shadow:var(--numora-shadow)!important}
 #home .panel[style*="linear-gradient"] p{color:var(--muted)!important;line-height:1.5!important;font-size:14px!important}
@@ -418,27 +403,7 @@ button.topic.topicCard:after{display:none!important}
 @media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}button.topic.topicCard{aspect-ratio:1.30!important;padding:15px 14px 16px!important;border-radius:22px!important}button.topic.topicCard .topicIcon{top:15px!important;left:15px!important;width:58px!important;height:58px!important}button.topic.topicCard .topicSymbol{top:26px!important;right:16px!important}button.topic.topicCard b{font-size:clamp(17px,4.5vw,21px)!important}button.topic.topicCard small{font-size:14px!important}}
 @media(max-width:360px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 </style>
-<div class="pyqSourceHub" id="sscCglTopicBank">
-<h3>🧩 Figure-Based Reasoning PYQs</h3>
-<p class="sub">Image/diagram question banks from SSC CGL papers • Open topic sets</p>
-<div class="pyqSourceGrid">
-<a class="pyqSourceCard" href="https://www.pyqvault.com/questions/ssc-cgl/reasoning/mirror-and-water-images" target="_blank" rel="noopener"><span class="pyqCardIcon">🪞</span><b>Mirror & Water Images</b><strong>122 <small>PYQs</small></strong><em>2023–2024 · Figures, answers and worked solutions</em><span class="pyqCardAction">Open topic set →</span></a>
-<a class="pyqSourceCard" href="https://www.pyqvault.com/questions/ssc-cgl/reasoning/paper-folding-and-cutting" target="_blank" rel="noopener"><span class="pyqCardIcon">📄</span><b>Paper Folding & Cutting</b><strong>56 <small>PYQs</small></strong><em>2023–2024 · Fold/unfold diagrams and solutions</em><span class="pyqCardAction">Open topic set →</span></a>
-<a class="pyqSourceCard" href="https://www.unlockias.in/ssc-cgl-previous-year-questions/reasoning/paper-folding-and-punching" target="_blank" rel="noopener"><span class="pyqCardIcon">✂️</span><b>Paper Folding & Punching</b><strong>38 <small>solved</small></strong><em>2024–2025 · SSC response-sheet sourced</em><span class="pyqCardAction">Open topic set →</span></a>
-<a class="pyqSourceCard" href="https://www.unlockias.in/ssc-cgl-previous-year-questions/reasoning" target="_blank" rel="noopener"><span class="pyqCardIcon">🔎</span><b>Embedded & Other Figure Questions</b><em>Embedded figures, figure series and visualisation</em><span class="pyqCardAction">Open reasoning PYQs →</span></a>
-</div>
-<p class="pyqSourceFoot">These open the source's original diagrams and answer explanations. Native offline import of these third-party image questions is not completed yet.</p>
-</div><div class="pyqSourceHub" id="sscCglSourceBank">
-<h3>🎯 SSC CGL Previous-Year Question Bank</h3>
-<p class="sub">Source-based practice • year/topic-wise • Open original question pages</p>
-<div class="pyqSourceGrid">
-<a class="pyqSourceCard" href="https://www.unlockias.in/ssc-cgl-previous-year-questions/reasoning" target="_blank" rel="noopener"><span class="pyqCardIcon">🧠</span><b>Reasoning PYQs</b><strong>1,617 <small>solved questions</small></strong><em>Figural series, spatial visualisation, paper folding and more</em><span class="pyqCardAction">Open question bank →</span></a>
-<a class="pyqSourceCard" href="https://sscprep.setuindustrial.com/pyq" target="_blank" rel="noopener"><span class="pyqCardIcon">📚</span><b>All 4 Subjects · SSCPrep</b><strong>10,887 <small>questions</small></strong><em>Reasoning, Quant, English & General Awareness · Year/shift filters</em><span class="pyqCardAction">Browse all subjects →</span></a>
-<a class="pyqSourceCard" href="https://career.aglasem.com/ssc/ssc-cgl/previous-papers" target="_blank" rel="noopener"><span class="pyqCardIcon">🗂️</span><b>Shift-wise Papers</b><strong>2016 onward <small>PDF archive</small></strong><em>SSC CGL papers organised by exam year and shift</em><span class="pyqCardAction">Open paper archive →</span></a>
-<a class="pyqSourceCard" href="https://www.unlockias.in/ssc-cgl-previous-year-questions/archive" target="_blank" rel="noopener"><span class="pyqCardIcon">📖</span><b>Older CGL PYQ Archive</b><strong>2016–2023 <small>archive</small></strong><em>Questions organised by year, subject and topic</em><span class="pyqCardAction">Explore archive →</span></a>
-</div>
-<p class="pyqSourceFoot">Source links open the original provider. Question year/shift and answer status are as stated by that provider. Diagram-based reasoning topics are available in the Reasoning PYQ source.</p>
-</div><div class="panel" style="background:linear-gradient(120deg,#6842e8,#b14be9);color:white"><b>📚 SSC CGL Analogy PYQ Bank</b><p style="color:#f4eaff;margin:6px 0 12px">100 original questions · 2024–2025 · two exam sets</p><button class="btn" style="background:white;color:#7542e8" onclick="openAnalogyBank()">Open PYQ Bank →</button></div><div id="analogyBank" class="hide"></div></section>
+</section>
 <section id="practice" class="page">
 <select id="topicSelect" class="hide" aria-hidden="true"></select>
 <div id="practicePicker"><div class="heading"><h2>Practice Sessions</h2><span class="muted">Choose a topic</span></div><div id="practiceTopics" class="grid"></div></div>
