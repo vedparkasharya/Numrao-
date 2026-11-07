@@ -741,14 +741,14 @@ function sqFinish(){
 sqUpdatePreview();
 
 /* Universal Remember Mode across all topics */
-let topicMemoryCards=[],topicMemoryQuestions=[],topicMemoryIndex=0,topicMemoryScore=0,topicMemoryRandom=false,topicMemoryLocked=false,topicMemoryCurrent=null;
+let topicMemoryCards=[],topicMemoryQuestions=[],topicMemoryIndex=0,topicMemoryScore=0,topicMemoryMissed=[],topicMemoryRandom=false,topicMemoryLocked=false,topicMemoryCurrent=null;
 function memShuffle(a){let x=a.slice();for(let i=x.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
 function memEscape(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function buildTopicMemory(id){
  const t=topics.find(x=>x.id===id);let cards=(t?.notes||[]).filter(Boolean).map((v,i)=>({front:"Key fact / rule "+(i+1),back:v}));
  const add=(front,back)=>cards.push({front,back});
  if(id==="tables")for(let n=2;n<=25;n++)add("Multiplication table · "+n,Array.from({length:10},(_,i)=>(i+1)+"×"+n+"="+((i+1)*n)).join(" · "));
- if(id==="squares")for(let n=1;n<=50;n++)add(n+"²",(n*n).toLocaleString("en-IN"));
+ if(id==="squares")for(let n=1;n<=50;n++){add(n+"²",(n*n).toLocaleString("en-IN"));add(n+" × 2",(n*2).toLocaleString("en-IN"));add(n+" × 3",(n*3).toLocaleString("en-IN"));add(n+" × 4",(n*4).toLocaleString("en-IN"));}
  if(id==="cubes")for(let n=1;n<=30;n++)add(n+"³",(n*n*n).toLocaleString("en-IN"));
  if(id==="squareroot")for(let n=1;n<=30;n++)add("√"+(n*n),String(n));
  if(id==="cuberoot")for(let n=1;n<=20;n++)add("∛"+(n*n*n),String(n));
@@ -1052,7 +1052,7 @@ function startTopicRemember(random=false){
  html+='<button class="btn startBtn" onclick="startTopicMemoryQuiz()">I have revised these → Start mixed MCQ</button><button class="btn alt" style="width:100%;margin-top:9px" onclick="showConfig()">Back to settings</button></div>';
  $("quizPanel").innerHTML=html;$("configPanel").classList.add("hide");$("practicePicker").classList.add("hide");$("quizPanel").classList.remove("hide");window.scrollTo({top:0,behavior:"smooth"});
 }
-function startTopicMemoryQuiz(){topicMemoryQuestions=topicMemoryRandom?memShuffle(topicMemoryCards):topicMemoryCards.slice();topicMemoryIndex=0;topicMemoryScore=0;topicMemoryRender()}
+function startTopicMemoryQuiz(){topicMemoryQuestions=topicMemoryRandom?memShuffle(topicMemoryCards):topicMemoryCards.slice();topicMemoryIndex=0;topicMemoryScore=0;topicMemoryMissed=[];topicMemoryRender()}
 function topicMemoryRender(){
  if(topicMemoryIndex>=topicMemoryQuestions.length){topicMemoryFinish();return}
  const item=topicMemoryQuestions[topicMemoryIndex];topicMemoryCurrent={item};topicMemoryLocked=false;
